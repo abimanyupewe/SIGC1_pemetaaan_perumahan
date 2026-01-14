@@ -71,11 +71,11 @@ export const AboutHero = () => {
                 />
 
                 {/* Grid Pattern Overlay */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+                <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-size-[48px_48px] mask-[radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
 
                 {/* Radar Scan Effect for GIS Theme */}
                 <div className="absolute w-[800px] h-[800px] rounded-full border border-indigo-500/10 dark:border-white/5 animate-[spin_20s_linear_infinite] pointer-events-none">
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-transparent to-indigo-500/10 dark:to-white/5" />
+                    <div className="absolute inset-0 rounded-full bg-linear-to-tr from-transparent via-transparent to-indigo-500/10 dark:to-white/5" />
                 </div>
 
                 {/* Glow Effect */}
@@ -96,8 +96,7 @@ export const AboutHero = () => {
                         style={{ scale }}
                         className="relative w-64 h-64 md:w-96 md:h-96 z-20"
                     >
-                        {/* Premium Card Effect Background */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/20 to-purple-500/20 rounded-[2rem] blur-xl opacity-50 transform scale-105" />
+                        <div className="absolute inset-0 bg-linear-to-tr from-indigo-500/20 to-purple-500/20 rounded-[2rem] blur-xl opacity-50 transform scale-105" />
 
                         <img
                             src={Assets.foto}
@@ -106,7 +105,7 @@ export const AboutHero = () => {
                         />
 
                         {/* Glass Reflection Overlay */}
-                        <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-br from-white/10 to-transparent z-20 pointer-events-none" />
+                        <div className="absolute inset-0 rounded-[2rem] bg-linear-to-br from-white/10 to-transparent z-20 pointer-events-none" />
                     </motion.div>
 
                     {/* Social Icons - Orbiting */}

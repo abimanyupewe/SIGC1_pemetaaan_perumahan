@@ -95,10 +95,12 @@ export const Navbar = () => {
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 {/* Logo */}
                 <div
-                    className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 font-sans cursor-pointer z-50 relative"
+                    className="text-xl font-bold font-sans cursor-pointer z-50 relative"
                     onClick={() => handleNavigation('home')}
                 >
-                    SIG Perumahan
+                    <span className="bg-clip-text text-transparent! bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 inline-block pb-1">
+                        SIG Perumahan
+                    </span>
                 </div>
 
                 {/* Desktop Menu */}

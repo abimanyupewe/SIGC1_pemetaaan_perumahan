@@ -8,7 +8,7 @@ export const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
                     {/* Brand Section */}
                     <div className="md:col-span-2">
-                        <div className="text-2xl font-bold bg-clip-text text-transparent bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 font-sans mb-4">
+                        <div className="text-2xl font-bold bg-clip-text text-transparent! bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 font-sans mb-4 inline-block">
                             SIG Perumahan
                         </div>
                         <p className="text-neutral-600 dark:text-muted-foreground max-w-sm mb-6 leading-relaxed">

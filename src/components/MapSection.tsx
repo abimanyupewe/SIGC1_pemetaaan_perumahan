@@ -39,7 +39,8 @@ export const MapSection: React.FC = () => {
         <section
             ref={mapSectionRef}
             id="map-section"
-            className="min-h-screen relative py-20 px-4 md:px-10 bg-gradient-to-b from-neutral-50 to-neutral-100 dark:from-background dark:to-background/50 overflow-hidden"
+            className="min-h-screen relative py-20 px-4 md:px-10 bg-linear-to-b from-neutral-50 to-neutral-100 dark:from-background dark:to-background/50 overflow-hidden"
+
         >
             {/* Background Pattern */}
             <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
@@ -47,7 +48,7 @@ export const MapSection: React.FC = () => {
             <div className="container mx-auto relative z-10 flex flex-col h-full gap-8">
                 {/* Section Header */}
                 <div className="text-center max-w-2xl mx-auto space-y-4">
-                    <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+                    <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent! bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 inline-block">
                         Peta Digital Interaktif
                     </h2>
                     <p className="text-neutral-600 dark:text-muted-foreground text-lg">
@@ -58,7 +59,7 @@ export const MapSection: React.FC = () => {
 
                 {/* Map Card */}
                 <div className="flex-grow w-full h-[60vh] md:h-[75vh] relative group">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+                    <div className="absolute -inset-1 bg-linear-to-r from-indigo-500 to-purple-600 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
                     <div className="relative h-full w-full bg-white dark:bg-card rounded-[2rem] shadow-2xl overflow-hidden border border-neutral-200 dark:border-white/10 ring-1 ring-black/5 dark:ring-white/10">
 
                         <MapComponent className="w-full h-full" />

@@ -29,7 +29,7 @@ export const ContributorSection = () => {
 
                     <h2 className="text-4xl md:text-5xl font-bold leading-tight text-neutral-900 dark:text-white">
                         Penasaran siapa yang <br className="hidden md:block" />
-                        <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+                        <span className="text-transparent! bg-clip-text bg-linear-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400 inline-block">
                             berkontribusi?
                         </span>
                     </h2>

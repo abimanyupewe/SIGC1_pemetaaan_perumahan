@@ -75,7 +75,7 @@ export const StatsSection = () => {
 
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center max-w-2xl mx-auto mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-linear-to-r from-neutral-900 to-neutral-600 dark:from-white dark:to-neutral-400 mb-4">
+                    <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent! bg-linear-to-r from-neutral-900 to-neutral-600 dark:from-white dark:to-neutral-400 mb-4 inline-block">
                         Statistik Wilayah Mulyorejo
                     </h2>
                     <p className="text-lg text-neutral-600 dark:text-neutral-400">
