@@ -5,6 +5,8 @@ import FullMapPage from './pages/FullMapPage';
 import { DataPage } from './pages/DataPage';
 import { Preloader } from './components/Preloader';
 
+import { AboutPage } from './pages/AboutPage';
+
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -15,6 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/data" element={<DataPage />} />
         <Route path="/map" element={<FullMapPage />} />
+        <Route path="/about" element={<AboutPage />} />
       </Routes>
     </>
   );

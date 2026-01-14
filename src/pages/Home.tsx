@@ -8,6 +8,8 @@ import { FaqSection } from '../components/FaqSection';
 import { LayoutMapSection } from '../components/LayoutMapSection';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
+import { ContributorSection } from '../components/ContributorSection';
+
 const Home: React.FC = () => {
     useDocumentTitle('Beranda - SIG Perumahan Mulyorejo');
 
@@ -26,6 +28,7 @@ const Home: React.FC = () => {
             <LayoutMapSection />
             <MapSection />
             <FaqSection />
+            <ContributorSection />
             <Footer />
         </div>
     );

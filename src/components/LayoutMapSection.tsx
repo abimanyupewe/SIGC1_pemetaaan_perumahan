@@ -25,27 +25,6 @@ export const LayoutMapSection = () => {
                                 Peta ini membantu Anda memahami orientasi spasial kawasan sebelum menjelajahinya secara interaktif.
                             </p>
                         </div>
-
-                        <div className="flex flex-col sm:flex-row gap-4">
-                            <div className="flex items-center gap-4 p-4 bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-100 dark:border-neutral-800">
-                                <div className="h-10 w-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600 dark:text-blue-400 font-bold">
-                                    A
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Blok Hunian</p>
-                                    <p className="text-xs text-neutral-500">Area residensial utama</p>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-4 p-4 bg-neutral-50 dark:bg-neutral-900 rounded-xl border border-neutral-100 dark:border-neutral-800">
-                                <div className="h-10 w-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600 dark:text-green-400 font-bold">
-                                    B
-                                </div>
-                                <div>
-                                    <p className="text-sm font-medium text-neutral-900 dark:text-neutral-100">Fasilitas Umum</p>
-                                    <p className="text-xs text-neutral-500">Taman & Masjid</p>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     {/* Image Column */}

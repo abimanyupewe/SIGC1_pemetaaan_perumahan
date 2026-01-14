@@ -12,11 +12,13 @@ const FullMapPage: React.FC = () => {
     return (
         <div className="w-full h-screen relative bg-slate-100">
             <MapComponent className="w-full h-full" />
-            <div className="absolute top-4 left-4 z-50">
+
+            {/* Floating Back Button - Bottom Left */}
+            <div className="absolute bottom-4 left-4 z-50">
                 <Button
-                    variant="secondary"
+                    variant="outline"
                     onClick={() => navigate('/')}
-                    className="shadow-md bg-white hover:bg-slate-50 text-slate-800"
+                    className="shadow-lg bg-white/90 dark:bg-neutral-900/90 backdrop-blur-md border-white/20 dark:border-white/10 hover:bg-white dark:hover:bg-neutral-800 text-neutral-700 dark:text-neutral-200 transition-all duration-300 hover:scale-105 rounded-full px-6 py-5"
                 >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Kembali ke Beranda
