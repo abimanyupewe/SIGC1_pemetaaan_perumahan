@@ -16,17 +16,17 @@ import { HowToUseSection } from '../components/HowToUseSection';
 const Home: React.FC = () => {
     useDocumentTitle('Beranda - SIG Perumahan Mulyorejo');
 
-    const scrollToMap = () => {
-        const mapSection = document.getElementById('map-section');
-        if (mapSection) {
-            mapSection.scrollIntoView({ behavior: 'smooth' });
+    const scrollToHowToUse = () => {
+        const howToUseSection = document.getElementById('how-to-use-section');
+        if (howToUseSection) {
+            howToUseSection.scrollIntoView({ behavior: 'smooth' });
         }
     };
 
     return (
         <div className="">
             <Navbar />
-            <HeroSection onStartClick={scrollToMap} />
+            <HeroSection onLearnMoreClick={scrollToHowToUse} />
             <StatsSection />
             <HowToUseSection />
             <DataPreviewSection />

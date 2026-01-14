@@ -35,7 +35,7 @@ export const HowToUseSection = () => {
     const isInView = useInView(ref, { once: true, margin: "-100px" });
 
     return (
-        <section className="py-24 relative overflow-hidden bg-white dark:bg-background" ref={ref}>
+        <section id="how-to-use-section" className="py-24 relative overflow-hidden bg-white dark:bg-background" ref={ref}>
             <div className="container mx-auto px-4 relative z-10">
                 <div className="text-center max-w-2xl mx-auto mb-16">
                     <motion.div
@@ -43,7 +43,7 @@ export const HowToUseSection = () => {
                         animate={isInView ? { opacity: 1, y: 0 } : {}}
                         transition={{ duration: 0.6 }}
                     >
-                         <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-neutral-900 via-neutral-700 to-neutral-900 dark:from-white dark:via-neutral-200 dark:to-white mb-6 tracking-tight">
+                        <h2 className="text-3xl md:text-5xl font-bold bg-clip-text text-transparent bg-linear-to-r from-neutral-900 via-neutral-700 to-neutral-900 dark:from-white dark:via-neutral-200 dark:to-white mb-6 tracking-tight">
                             Panduan Penggunaan
                         </h2>
                         <p className="text-neutral-600 dark:text-neutral-400 text-lg leading-relaxed">
@@ -65,7 +65,7 @@ export const HowToUseSection = () => {
                             <div className="w-16 h-16 rounded-xl bg-white dark:bg-background border border-neutral-100 dark:border-border flex items-center justify-center mb-6 shadow-xs group-hover:scale-110 transition-transform duration-300">
                                 {step.icon}
                             </div>
-                            
+
                             <div className="absolute top-8 right-8 text-4xl font-black text-neutral-200 dark:text-neutral-800 opacity-50 select-none">
                                 {step.id}
                             </div>
