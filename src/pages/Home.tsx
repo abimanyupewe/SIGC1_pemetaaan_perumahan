@@ -10,6 +10,8 @@ import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 import { ContributorSection } from '../components/ContributorSection';
 
+import { DataPreviewSection } from '../components/DataPreviewSection';
+
 const Home: React.FC = () => {
     useDocumentTitle('Beranda - SIG Perumahan Mulyorejo');
 
@@ -25,6 +27,7 @@ const Home: React.FC = () => {
             <Navbar />
             <HeroSection onStartClick={scrollToMap} />
             <StatsSection />
+            <DataPreviewSection />
             <LayoutMapSection />
             <MapSection />
             <FaqSection />
