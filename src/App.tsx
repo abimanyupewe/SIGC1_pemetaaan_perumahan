@@ -7,11 +7,14 @@ import { Preloader } from './components/Preloader';
 
 import { AboutPage } from './pages/AboutPage';
 
+import ScrollToTop from './components/ScrollToTop';
+
 function App() {
   const [loading, setLoading] = useState(true);
 
   return (
     <>
+      <ScrollToTop />
       {loading && <Preloader onComplete={() => setLoading(false)} />}
       <Routes>
         <Route path="/" element={<Home />} />
