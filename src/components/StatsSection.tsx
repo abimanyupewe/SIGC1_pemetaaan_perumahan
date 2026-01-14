@@ -5,7 +5,7 @@ import { Building2, Map, Users, TrendingUp } from "lucide-react";
 const stats = [
     {
         icon: <Building2 className="w-8 h-8 text-indigo-500" />,
-        value: 12,
+        value: 14,
         suffix: "+",
         label: "Perumahan Terdata",
         description: "Kompleks perumahan yang telah terpetakan dengan detail.",
