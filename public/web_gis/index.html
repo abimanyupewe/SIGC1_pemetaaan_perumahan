@@ -1,70 +1,706 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
-        <meta name="mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="./resources/ol.css">
-        <link rel="stylesheet" href="resources/fontawesome-all.min.css">
-        <link rel="stylesheet" type="text/css" href="resources/horsey.min.css">
-        <link rel="stylesheet" type="text/css" href="resources/ol-search-layer.min.css">
-        <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
-        <link rel="stylesheet" href="./resources/qgis2web.css">
-        <style>
-        html, body {
-            background-color: #ffffff;
-        }
-        .ol-control > * {
-            background-color: #f8f8f8!important;
-            color: #444444!important;
-            border-radius: 0px;
-        }
-        .ol-attribution a, .gcd-gl-input::placeholder, .search-layer-input-search::placeholder {
-            color: #444444!important;
-        }
-        .search-layer-input-search {
-            background-color: #f8f8f8!important;
-        }
-        .ol-control > *:focus, .ol-control >*:hover {
-            background-color: rgba(248, 248, 248, 0.7)!important;
-        } 
-        .ol-control {
-            background-color: rgba(255,255,255,.4) !important;
-            padding: 2px !important;
-        } 
-        </style>
 
-        <style>
-        html, body, #map {
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="./resources/ol.css">
+    <link rel="stylesheet" href="resources/fontawesome-all.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/horsey.min.css">
+    <link rel="stylesheet" type="text/css" href="resources/ol-search-layer.min.css">
+    <link href="resources/photon-geocoder-autocomplete.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./resources/ol-layerswitcher.css">
+    <link rel="stylesheet" href="./resources/qgis2web.css">
+    <style>
+        html,
+        body,
+        #map {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
-        </style>
-        <title>Peta Tematik Persebaran Perumahan di Kelurahan Mulyorejo, Kecamatan Sukun</title>
-    </head>
-    <body>
-        <div id="map">
-            <div id="popup" class="ol-popup">
-                <a href="#" id="popup-closer" class="ol-popup-closer"></a>
-                <div id="popup-content"></div>
-            </div>
+
+        /* --- Scrollbar --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #c7c7c7;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a8a8a8;
+        }
+
+        /* --- Glassmorphic / Clean White Controls --- */
+        .ol-control {
+            background-color: #ffffff !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+            padding: 4px !important;
+        }
+
+        .ol-control:hover {
+            background-color: #ffffff !important;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        /* --- Zoom Controls (Top Left - Pushed Down) --- */
+        .ol-zoom {
+            top: 100px !important;
+            /* Below the title */
+            left: 20px !important;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+
+        .ol-zoom button {
+            background-color: #ffffff !important;
+            color: #1e1b4b !important;
+            border-radius: 8px !important;
+            width: 36px !important;
+            height: 36px !important;
+            font-size: 18px !important;
+            font-weight: 500 !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+            transition: all 0.2s ease;
+            margin: 0 !important;
+        }
+
+        .ol-zoom button:hover {
+            background-color: #eff6ff !important;
+            /* Light indigo hover */
+            color: #4f46e5 !important;
+        }
+
+        /* --- Measure & Search Controls (Match Zoom Style) --- */
+        .measure-control,
+        .gcd-gl-control,
+        .search-layer {
+            top: 190px !important;
+            /* Stack below Zoom */
+            left: 20px !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+        }
+
+        /* Adjust spacing - Consistent Gap */
+        .measure-control {
+            top: 190px !important;
+        }
+
+        .gcd-gl-control,
+        .search-layer {
+            top: 240px !important;
+        }
+
+        .measure-button,
+        .gcd-gl-control button,
+        .search-layer button {
+            background-color: #ffffff !important;
+            color: transparent !important;
+            /* Hide potential text */
+            border-radius: 8px !important;
+            width: 36px !important;
+            height: 36px !important;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05) !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+            transition: all 0.2s ease;
+            margin: 0 !important;
+            cursor: pointer;
+            display: flex !important;
+            /* Ensure visibility */
+            align-items: center;
+            justify-content: center;
+
+            /* Center the icon */
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-size: 18px !important;
+
+            /* Reset FontAwesome font family override if inherited */
+            font-family: inherit !important;
+        }
+
+        /* Measure Icon (Ruler) */
+        .measure-button {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%231e1b4b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h12"/><path d="M6 14h6"/><path d="M6 10h12"/><path d="M6 6h6"/><path d="M6 6v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2z"/></svg>') !important;
+        }
+
+        /* Search Icon (Magnifying Glass) */
+        .gcd-gl-control button,
+        .search-layer button {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%231e1b4b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') !important;
+        }
+
+        .measure-button:hover,
+        .gcd-gl-control button:hover,
+        .search-layer button:hover {
+            background-color: #eff6ff !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .measure-button:hover {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%234f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18h12"/><path d="M6 14h6"/><path d="M6 10h12"/><path d="M6 6h6"/><path d="M6 6v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2z"/></svg>') !important;
+        }
+
+        .gcd-gl-control button:hover,
+        .search-layer button:hover {
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%234f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>') !important;
+        }
+
+        /* Disable FontAwesome Pseudo-elements ONLY */
+        .measure-button::before,
+        .search-layer button::before,
+        .fa::before {
+            display: none !important;
+            content: "" !important;
+        }
+
+        /* Search Input Styling (if expanded) */
+        .search-layer-input-search {
+            background-color: white !important;
+            border: 1px solid rgba(0, 0, 0, 0.1) !important;
+            border-radius: 8px !important;
+            height: 36px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05) !important;
+            margin-left: 8px !important;
+            color: #1e1b4b !important;
+            font-family: 'Inter', sans-serif !important;
+        }
+
+        /* --- Title Box (Top Left) --- */
+        .top-left-title {
+            position: fixed !important;
+            top: 20px !important;
+            left: 20px !important;
+            right: auto !important;
+            background: #ffffff !important;
+            padding: 16px 24px !important;
+            border-radius: 16px !important;
+            /* Slightly more rounded */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1) !important;
+            border: 1px solid rgba(0, 0, 0, 0.05) !important;
+            max-width: 350px;
+            z-index: 1000;
+        }
+
+        /* Mobile adjustment for title */
+        @media (max-width: 640px) {
+            .top-left-title {
+                top: 10px !important;
+                left: 10px !important;
+                right: 60px !important;
+                /* Ensure space for burger menu if any, or just spacing */
+                padding: 12px 16px !important;
+                font-size: 12px !important;
+            }
+
+            .ol-zoom {
+                top: 80px !important;
+            }
+        }
+
+        .project-title {
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            color: #1e1b4b !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            letter-spacing: -0.01em;
+            line-height: 1.4;
+        }
+
+        /* --- Attribution Control (Info/i Button) --- */
+        .ol-attribution {
+            top: 20px !important;
+            right: 20px !important;
+            bottom: auto !important;
+            left: auto !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        .ol-attribution button {
+            width: 44px !important;
+            height: 44px !important;
+            background-color: #ffffff !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+
+            /* Hide Text 'i' */
+            font-size: 0 !important;
+            color: transparent !important;
+
+            /* Use SVG Icon instead for perfect centering */
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%234f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>') !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: 24px !important;
+            /* Larger clearer icon */
+
+            cursor: pointer;
+            outline: none !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            margin: 0 !important;
+        }
+
+        /* Force hide any text node or span inside the button */
+        .ol-attribution button span {
+            display: none !important;
+            font-size: 0 !important;
+            opacity: 0 !important;
+        }
+
+        .ol-attribution button:hover {
+            background-color: #eff6ff !important;
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* Hide expanded attribution list by default or style it if needed, 
+           but usually button is what we see first. */
+        .ol-attribution ul {
+            display: none;
+            /* Hide default text expansion for cleaner toggle */
+        }
+
+        .ol-attribution.ol-uncollapsible {
+            /* Handle uncollapsible if set */
+        }
+
+        /* --- Layer Switcher (Legend - Top Right) --- */
+        .layer-switcher {
+            top: 80px !important;
+            /* Stacked BELOW Attribution (20 + 44 + 16gap) */
+            right: 20px !important;
+            background-color: #ffffff !important;
+            border-radius: 16px !important;
+            border: none !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+            padding: 0 !important;
+            overflow: hidden !important;
+            transition: all 0.3s ease;
+        }
+
+        .layer-switcher button {
+            width: 44px !important;
+            height: 44px !important;
+            background-color: #ffffff !important;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%234f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l-9 4.5 9 4.5 9-4.5z"/><path d="M3 11l9 4.5 9-4.5"/><path d="M3 15.5l9 4.5 9-4.5"/></svg>') !important;
+            background-size: 20px !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            border-radius: 12px !important;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* Close Button styling */
+        /* Close Button styling */
+        .layer-switcher.shown button {
+            background-color: transparent !important;
+            position: absolute !important;
+            /* Force reset of left/float to fix alignment bug */
+            left: auto !important;
+            float: none !important;
+
+            top: 14px !important;
+            right: 20px !important;
+            width: 28px !important;
+            height: 28px !important;
+            background-image: none !important;
+            box-shadow: none !important;
+            z-index: 50 !important;
+            margin: 0 !important;
+            border: none !important;
+
+            /* FontAwesome Setup */
+            display: flex !important;
+            align-items: center;
+            justify-content: center;
+            font-size: 0 !important;
+            transition: transform 0.2s ease;
+            border-radius: 8px !important;
+        }
+
+        .layer-switcher.shown button::before {
+            content: "\f00d";
+            /* FontAwesome 'Times' (X) Icon */
+            font-family: "Font Awesome 5 Free" !important;
+            font-weight: 900 !important;
+            font-size: 18px !important;
+            /* Visible icon size */
+            color: #94a3b8 !important;
+            /* Lighter slate initially */
+            display: block;
+        }
+
+        .layer-switcher.shown button:hover {
+            transform: rotate(90deg);
+            background-color: #f1f5f9 !important;
+        }
+
+        .layer-switcher.shown button:hover::before {
+            color: #ef4444 !important;
+            /* Red on hover for close action */
+        }
+
+        /* --- Refined Layer List Styling --- */
+        .layer-switcher li {
+            margin-bottom: 8px !important;
+            font-size: 13px !important;
+            color: #1e293b !important;
+            /* Darker slate for readability */
+            display: flex;
+            align-items: center;
+            padding: 8px 12px !important;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            cursor: pointer;
+        }
+
+        .layer-switcher li:hover {
+            background-color: #f1f5f9 !important;
+            /* Slate-100 hover */
+            transform: translateX(2px);
+        }
+
+        /* Checkbox styling adjustment */
+        .layer-switcher input[type="checkbox"] {
+            accent-color: #4f46e5 !important;
+            width: 16px;
+            height: 16px;
+            margin-right: 12px;
+            cursor: pointer;
+            border-radius: 4px !important;
+        }
+
+        .layer-switcher label {
+            cursor: pointer;
+            font-weight: 500;
+            width: 100%;
+            /* Hit area */
+        }
+
+        /* --- Popup Styling --- */
+        .ol-popup {
+            border-radius: 12px !important;
+            border: none !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15) !important;
+            padding: 0 !important;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            font-family: 'Inter', sans-serif;
+            min-width: 320px;
+            max-width: 400px;
+        }
+
+        /* Popup Header - Premium Look */
+        #popup-content h3,
+        #popup-content h4,
+        #popup-content .popup-header,
+        #popup-content>table>tbody>tr>td>h3,
+        #popup-content>div>h3,
+        #popup-content a b {
+            display: flex !important;
+            align-items: center;
+            min-height: 24px;
+            /* Ensure visual balance */
+            background: linear-gradient(135deg, #4f46e5, #4338ca);
+            /* Rich Indigo Gradient */
+            color: #ffffff !important;
+            padding: 16px 50px 16px 24px;
+            /* Right padding cleared for close button */
+            margin: 0;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            border-bottom: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.15);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Remove default link styling from the header title if standard QGIS */
+        #popup-content a {
+            text-decoration: none !important;
+            pointer-events: none;
+            /* Make header clicking do nothing */
+        }
+
+        /* Popup Close Button - Adapted for Dark Header */
+        .ol-popup-closer {
+            text-decoration: none;
+            position: absolute !important;
+            top: 14px !important;
+            /* Vertically centered relative to ~54px header */
+            right: 14px !important;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            z-index: 100;
+            background-color: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+
+        /* Specific override for QGIS generated headers cleaner */
+        #popup-content>div>h3,
+        #popup-content b {
+            /* Handled above by specificity, but ensuring no conflict */
+        }
+
+        /* Scrollable Content Wrapper if needed. 
+           QGIS2Web usually puts table directly in #popup-content. 
+           We can make the table scrollable by setting max-height on #popup-content 
+           but checking if it breaks layout. */
+        /* Scrollable Content Wrapper */
+        #popup-content {
+            max-height: 300px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #cbd5e1 transparent;
+        }
+
+        /* Custom Webkit Scrollbar for Chrome/Safari/Edge */
+        #popup-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        #popup-content::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #popup-content::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 20px;
+            border: 2px solid transparent;
+            background-clip: content-box;
+        }
+
+        #popup-content::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8;
+        }
+
+        /* Table Content Styling */
+        #popup-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0;
+            table-layout: fixed;
+            /* Prevents overflow */
+            font-family: 'Inter', sans-serif;
+        }
+
+        #popup-content th,
+        #popup-content td {
+            padding: 12px 24px !important;
+            /* Matches header padding */
+            font-size: 13px !important;
+            text-align: left;
+            border-bottom: 1px solid #f1f5f9;
+            line-height: 1.5;
+            word-wrap: break-word;
+            /* Wrap long text */
+            color: #334155;
+            background-color: #ffffff;
+        }
+
+        #popup-content th {
+            color: #64748b;
+            font-weight: 600;
+            width: 35%;
+            /* Fixed label width */
+            vertical-align: top;
+            letter-spacing: 0.01em;
+        }
+
+        #popup-content td {
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        #popup-content tr:last-child td,
+        #popup-content tr:last-child th {
+            border-bottom: none;
+        }
+
+        /* Striped rows - subtle */
+        #popup-content tr:nth-child(even) th,
+        #popup-content tr:nth-child(even) td {
+            background-color: #fafbfc;
+        }
+
+        /* Images in popup */
+        #popup-content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin-top: 8px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: block;
+        }
+
+        /* Ensure FontAwesome Icon for Close Button is Visible */
+        .ol-popup-closer:after {
+            content: "\f00d";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            font-size: 16px;
+            color: #ffffff;
+            opacity: 0.9;
+            display: block;
+        }
+
+
+
+        /* Hide Scale Line if it ugly */
+        .ol-scale-line {
+            background: rgba(255, 255, 255, 0.8) !important;
+            padding: 4px 8px !important;
+            border-radius: 6px !important;
+            bottom: 20px !important;
+            left: 20px !important;
+        }
+
+        .ol-scale-line-inner {
+            color: #1e1b4b !important;
+            border-color: #1e1b4b !important;
+            font-weight: 600;
+        }
+    </style>
+    <title>Peta Tematik Persebaran Perumahan di Kelurahan Mulyorejo, Kecamatan Sukun</title>
+    <!-- Add GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+</head>
+
+<body>
+    <div id="map">
+        <div id="popup" class="ol-popup">
+            <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+            <div id="popup-content"></div>
         </div>
-        <script src="resources/qgis2web_expressions.js"></script>
-        <script src="./resources/functions.js"></script>
-        <script src="./resources/ol.js"></script>
-        <script src="resources/horsey.min.js"></script>
-        <script src="resources/ol-search-layer.js"></script>
-        <script src="./resources/ol-layerswitcher.js"></script>
-        <script src="resources/photon-geocoder-autocomplete.min.js"></script>
-        <script src="layers/AREAKELURAHAN_1.js"></script><script src="layers/FASILITASUMUM_2.js"></script><script src="layers/JALANANTARKOTA_3.js"></script><script src="layers/JALANGANG_4.js"></script><script src="layers/JALANKAMPUNG_5.js"></script><script src="layers/JALANPERUMAHAN_6.js"></script><script src="layers/SUNGAI_7.js"></script><script src="layers/JALANRAYA_8.js"></script><script src="layers/LAHANTERBUKAHIJAU_9.js"></script><script src="layers/AREAPERUMAHAN_10.js"></script><script src="layers/AREASAWAH_11.js"></script><script src="layers/PERUMAHAN_12.js"></script>
-        <script src="styles/AREAKELURAHAN_1_style.js"></script><script src="styles/FASILITASUMUM_2_style.js"></script><script src="styles/JALANANTARKOTA_3_style.js"></script><script src="styles/JALANGANG_4_style.js"></script><script src="styles/JALANKAMPUNG_5_style.js"></script><script src="styles/JALANPERUMAHAN_6_style.js"></script><script src="styles/SUNGAI_7_style.js"></script><script src="styles/JALANRAYA_8_style.js"></script><script src="styles/LAHANTERBUKAHIJAU_9_style.js"></script><script src="styles/AREAPERUMAHAN_10_style.js"></script><script src="styles/AREASAWAH_11_style.js"></script><script src="styles/PERUMAHAN_12_style.js"></script>
-        <script src="./layers/layers.js" type="text/javascript"></script> 
-        <script src="./resources/Autolinker.min.js"></script>
-        <script src="./resources/qgis2web.js"></script>        
-    </body>
+    </div>
+    <script src="resources/qgis2web_expressions.js"></script>
+    <script src="./resources/functions.js"></script>
+    <script src="./resources/ol.js"></script>
+    <script src="resources/horsey.min.js"></script>
+    <script src="resources/ol-search-layer.js"></script>
+    <script src="./resources/ol-layerswitcher.js"></script>
+    <script src="resources/photon-geocoder-autocomplete.min.js"></script>
+    <script src="layers/AREAKELURAHAN_1.js"></script>
+    <script src="layers/FASILITASUMUM_2.js"></script>
+    <script src="layers/JALANANTARKOTA_3.js"></script>
+    <script src="layers/JALANGANG_4.js"></script>
+    <script src="layers/JALANKAMPUNG_5.js"></script>
+    <script src="layers/JALANPERUMAHAN_6.js"></script>
+    <script src="layers/SUNGAI_7.js"></script>
+    <script src="layers/JALANRAYA_8.js"></script>
+    <script src="layers/LAHANTERBUKAHIJAU_9.js"></script>
+    <script src="layers/AREAPERUMAHAN_10.js"></script>
+    <script src="layers/AREASAWAH_11.js"></script>
+    <script src="layers/PERUMAHAN_12.js"></script>
+    <script src="styles/AREAKELURAHAN_1_style.js"></script>
+    <script src="styles/FASILITASUMUM_2_style.js"></script>
+    <script src="styles/JALANANTARKOTA_3_style.js"></script>
+    <script src="styles/JALANGANG_4_style.js"></script>
+    <script src="styles/JALANKAMPUNG_5_style.js"></script>
+    <script src="styles/JALANPERUMAHAN_6_style.js"></script>
+    <script src="styles/SUNGAI_7_style.js"></script>
+    <script src="styles/JALANRAYA_8_style.js"></script>
+    <script src="styles/LAHANTERBUKAHIJAU_9_style.js"></script>
+    <script src="styles/AREAPERUMAHAN_10_style.js"></script>
+    <script src="styles/AREASAWAH_11_style.js"></script>
+    <script src="styles/PERUMAHAN_12_style.js"></script>
+    <script src="./layers/layers.js" type="text/javascript"></script>
+    <script src="./resources/Autolinker.min.js"></script>
+    <script src="./resources/qgis2web.js"></script>
+    <script>
+        // GSAP Animation for Layer Switcher
+        document.addEventListener('DOMContentLoaded', function () {
+            // Find the button and panel
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.attributeName === 'class') {
+                        const target = mutation.target;
+                        if (target.classList.contains('shown')) {
+                            // Panel Opened
+
+                            // 1. Animate the Header
+                            // Although strictly pseudo-element, we can't animate it directly with GSAP easily, 
+                            // but the container expansion is handled by CSS. 
+                            // Let's animate the list items!
+
+                            const items = target.querySelectorAll('li');
+                            gsap.fromTo(items,
+                                { opacity: 0, x: 20, autoAlpha: 0 },
+                                {
+                                    opacity: 1,
+                                    x: 0,
+                                    autoAlpha: 1,
+                                    duration: 0.4,
+                                    stagger: 0.05,
+                                    ease: "power2.out",
+                                    delay: 0.1
+                                }
+                            );
+
+                            // Animate Close Button
+                            const closeBtn = target.querySelector('button');
+                            if (closeBtn) {
+                                gsap.fromTo(closeBtn,
+                                    { rotate: -90, opacity: 0 },
+                                    { rotate: 0, opacity: 1, duration: 0.4, ease: "back.out(1.7)", delay: 0.2 }
+                                );
+                            }
+
+                        }
+                    }
+                });
+            });
+
+            // Start observing the layer switcher for class changes
+            const layerSwitcher = document.querySelector('.layer-switcher');
+            if (layerSwitcher) {
+                observer.observe(layerSwitcher, { attributes: true });
+            }
+        });
+    </script>
+</body>
+
 </html>

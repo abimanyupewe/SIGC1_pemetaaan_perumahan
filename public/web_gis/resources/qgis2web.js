@@ -4,7 +4,7 @@ var map = new ol.Map({
     renderer: 'canvas',
     layers: layersList,
     view: new ol.View({
-         maxZoom: 28, minZoom: 1
+        maxZoom: 28, minZoom: 1
     })
 });
 
@@ -12,7 +12,7 @@ var map = new ol.Map({
 map.getView().fit([12515258.427810, -902614.072580, 12555619.915626, -883133.622478], map.getSize());
 
 //full zooms only
-map.getView().setProperties({constrainResolution: true});
+map.getView().setProperties({ constrainResolution: true });
 
 //change cursor
 function pointerOnFeature(evt) {
@@ -20,7 +20,7 @@ function pointerOnFeature(evt) {
         return;
     }
     var hasFeature = map.hasFeatureAtPixel(evt.pixel, {
-        layerFilter: function(layer) {
+        layerFilter: function (layer) {
             return layer && (layer.get("interactive"));
         }
     });
@@ -28,60 +28,60 @@ function pointerOnFeature(evt) {
 }
 map.on('pointermove', pointerOnFeature);
 function styleCursorMove() {
-    map.on('pointerdrag', function() {
+    map.on('pointerdrag', function () {
         map.getViewport().style.cursor = "move";
     });
-    map.on('pointerup', function() {
+    map.on('pointerup', function () {
         map.getViewport().style.cursor = "default";
     });
 }
 styleCursorMove();
 
 ////small screen definition
-    var hasTouchScreen = map.getViewport().classList.contains('ol-touch');
-    var isSmallScreen = window.innerWidth < 650;
+var hasTouchScreen = map.getViewport().classList.contains('ol-touch');
+var isSmallScreen = window.innerWidth < 650;
 
 ////controls container
 
-    //top left container
-    var topLeftContainer = new ol.control.Control({
-        element: (() => {
-            var topLeftContainer = document.createElement('div');
-            topLeftContainer.id = 'top-left-container';
-            return topLeftContainer;
-        })(),
-    });
-    map.addControl(topLeftContainer)
+//top left container
+var topLeftContainer = new ol.control.Control({
+    element: (() => {
+        var topLeftContainer = document.createElement('div');
+        topLeftContainer.id = 'top-left-container';
+        return topLeftContainer;
+    })(),
+});
+map.addControl(topLeftContainer)
 
-    //bottom left container
-    var bottomLeftContainer = new ol.control.Control({
-        element: (() => {
-            var bottomLeftContainer = document.createElement('div');
-            bottomLeftContainer.id = 'bottom-left-container';
-            return bottomLeftContainer;
-        })(),
-    });
-    map.addControl(bottomLeftContainer)
-  
-    //top right container
-    var topRightContainer = new ol.control.Control({
-        element: (() => {
-            var topRightContainer = document.createElement('div');
-            topRightContainer.id = 'top-right-container';
-            return topRightContainer;
-        })(),
-    });
-    map.addControl(topRightContainer)
+//bottom left container
+var bottomLeftContainer = new ol.control.Control({
+    element: (() => {
+        var bottomLeftContainer = document.createElement('div');
+        bottomLeftContainer.id = 'bottom-left-container';
+        return bottomLeftContainer;
+    })(),
+});
+map.addControl(bottomLeftContainer)
 
-    //bottom right container
-    var bottomRightContainer = new ol.control.Control({
-        element: (() => {
-            var bottomRightContainer = document.createElement('div');
-            bottomRightContainer.id = 'bottom-right-container';
-            return bottomRightContainer;
-        })(),
-    });
-    map.addControl(bottomRightContainer)
+//top right container
+var topRightContainer = new ol.control.Control({
+    element: (() => {
+        var topRightContainer = document.createElement('div');
+        topRightContainer.id = 'top-right-container';
+        return topRightContainer;
+    })(),
+});
+map.addControl(topRightContainer)
+
+//bottom right container
+var bottomRightContainer = new ol.control.Control({
+    element: (() => {
+        var bottomRightContainer = document.createElement('div');
+        bottomRightContainer.id = 'bottom-right-container';
+        return bottomRightContainer;
+    })(),
+});
+map.addControl(bottomRightContainer)
 
 //popup
 var container = document.getElementById('popup');
@@ -91,12 +91,12 @@ var sketch;
 
 function stopMediaInPopup() {
     var mediaElements = container.querySelectorAll('audio, video');
-    mediaElements.forEach(function(media) {
+    mediaElements.forEach(function (media) {
         media.pause();
         media.currentTime = 0;
     });
 }
-closer.onclick = function() {
+closer.onclick = function () {
     container.style.display = 'none';
     closer.blur();
     stopMediaInPopup();
@@ -104,11 +104,11 @@ closer.onclick = function() {
 };
 var overlayPopup = new ol.Overlay({
     element: container,
-	autoPan: true
+    autoPan: true
 });
 map.addOverlay(overlayPopup)
-    
-    
+
+
 var NO_POPUP = 0
 var ALL_FIELDS = 1
 
@@ -148,7 +148,42 @@ var featureOverlay = new ol.layer.Vector({
 });
 
 var doHighlight = true;
+
 var doHover = true;
+
+// ... (createPopupField remains the same)
+
+// GSAP Helper Functions
+function showPopupWithGsap(coord) {
+    if (container.style.display !== 'block') {
+        container.style.display = 'block';
+        gsap.killTweensOf(container);
+        gsap.fromTo(container,
+            { opacity: 0, scale: 0.9, y: 10 },
+            { opacity: 1, scale: 1, y: 0, duration: 0.3, ease: "power2.out" }
+        );
+    }
+    overlayPopup.setPosition(coord);
+}
+
+function hidePopupWithGsap() {
+    if (container.style.display === 'block') {
+        gsap.killTweensOf(container);
+        gsap.to(container, {
+            opacity: 0,
+            scale: 0.9,
+            y: 10,
+            duration: 0.2,
+            ease: "power2.in",
+            onComplete: function () {
+                container.style.display = 'none';
+            }
+        });
+        closer.blur();
+    }
+}
+
+// GSAP helper functions end
 
 function createPopupField(currentFeature, currentFeatureKeys, layer) {
     var popupText = '';
@@ -178,19 +213,19 @@ function createPopupField(currentFeature, currentFeatureKeys, layer) {
                 popupField += '<strong>' + layer.get('fieldAliases')[currentFeatureKeys[i]] + '</strong><br />';
             }
             if (layer.get('fieldImages')[currentFeatureKeys[i]] != "ExternalResource") {
-				popupField += (currentFeature.get(currentFeatureKeys[i]) != null ? autolinker.link(currentFeature.get(currentFeatureKeys[i]).toLocaleString()) + '</td>' : '');
-			} else {
-				var fieldValue = currentFeature.get(currentFeatureKeys[i]);
-				if (/\.(gif|jpg|jpeg|tif|tiff|png|avif|webp|svg)$/i.test(fieldValue)) {
-					popupField += (fieldValue != null ? '<img src="images/' + fieldValue.replace(/[\\\/:]/g, '_').trim() + '" /></td>' : '');
-				} else if (/\.(mp4|webm|ogg|avi|mov|flv)$/i.test(fieldValue)) {
-					popupField += (fieldValue != null ? '<video controls><source src="images/' + fieldValue.replace(/[\\\/:]/g, '_').trim() + '" type="video/mp4">Il tuo browser non supporta il tag video.</video></td>' : '');
-				} else if (/\.(mp3|wav|ogg|aac|flac)$/i.test(fieldValue)) {
+                popupField += (currentFeature.get(currentFeatureKeys[i]) != null ? autolinker.link(currentFeature.get(currentFeatureKeys[i]).toLocaleString()) + '</td>' : '');
+            } else {
+                var fieldValue = currentFeature.get(currentFeatureKeys[i]);
+                if (/\.(gif|jpg|jpeg|tif|tiff|png|avif|webp|svg)$/i.test(fieldValue)) {
+                    popupField += (fieldValue != null ? '<img src="images/' + fieldValue.replace(/[\\\/:]/g, '_').trim() + '" /></td>' : '');
+                } else if (/\.(mp4|webm|ogg|avi|mov|flv)$/i.test(fieldValue)) {
+                    popupField += (fieldValue != null ? '<video controls><source src="images/' + fieldValue.replace(/[\\\/:]/g, '_').trim() + '" type="video/mp4">Il tuo browser non supporta il tag video.</video></td>' : '');
+                } else if (/\.(mp3|wav|ogg|aac|flac)$/i.test(fieldValue)) {
                     popupField += (fieldValue != null ? '<audio controls><source src="images/' + fieldValue.replace(/[\\\/:]/g, '_').trim() + '" type="audio/mpeg">Il tuo browser non supporta il tag audio.</audio></td>' : '');
                 } else {
-					popupField += (fieldValue != null ? autolinker.link(fieldValue.toLocaleString()) + '</td>' : '');
-				}
-			}
+                    popupField += (fieldValue != null ? autolinker.link(fieldValue.toLocaleString()) + '</td>' : '');
+                }
+            }
             popupText += '<tr>' + popupField + '</tr>';
         }
     }
@@ -198,7 +233,7 @@ function createPopupField(currentFeature, currentFeatureKeys, layer) {
 }
 
 var highlight;
-var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+var autolinker = new Autolinker({ truncate: { length: 30, location: 'smart' } });
 
 function onPointerMove(evt) {
     if (!doHover && !doHighlight) {
@@ -215,14 +250,15 @@ function onPointerMove(evt) {
 
     // Collect all features and their layers at the pixel
     var featuresAndLayers = [];
-    map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+    map.forEachFeatureAtPixel(pixel, function (feature, layer) {
         if (layer && feature instanceof ol.Feature && (layer.get("interactive") || layer.get("interactive") === undefined)) {
             featuresAndLayers.push({ feature, layer });
         }
     });
 
-    // Iterate over the features and layers in reverse order
-    for (var i = featuresAndLayers.length - 1; i >= 0; i--) {
+    // Iterate over the features and layers in order (Top first)
+    // We want to show ONLY the top-most feature that has a popup.
+    for (var i = 0; i < featuresAndLayers.length; i++) {
         var feature = featuresAndLayers[i].feature;
         var layer = featuresAndLayers[i].layer;
         var doPopup = false;
@@ -234,18 +270,22 @@ function onPointerMove(evt) {
         currentFeature = feature;
         currentLayer = layer;
         clusteredFeatures = feature.get("features");
+
+        var gotPopup = false; // Flag to check if we generated a popup for this layer
+
         if (clusteredFeatures) {
             clusterLength = clusteredFeatures.length;
         }
         if (typeof clusteredFeatures !== "undefined") {
             if (doPopup) {
-                for(var n=0; n<clusteredFeatures.length; n++) {
+                for (var n = 0; n < clusteredFeatures.length; n++) {
                     currentFeature = clusteredFeatures[n];
                     currentFeatureKeys = currentFeature.getKeys();
                     popupText += '<li><table>'
                     popupText += '<a>' + '<b>' + layer.get('popuplayertitle') + '</b>' + '</a>';
                     popupText += createPopupField(currentFeature, currentFeatureKeys, layer);
-                    popupText += '</table></li>';    
+                    popupText += '</table></li>';
+                    gotPopup = true;
                 }
             }
         } else {
@@ -255,7 +295,13 @@ function onPointerMove(evt) {
                 popupText += '<a>' + '<b>' + layer.get('popuplayertitle') + '</b>' + '</a>';
                 popupText += createPopupField(currentFeature, currentFeatureKeys, layer);
                 popupText += '</table></li>';
+                gotPopup = true;
             }
+        }
+
+        // If we found a popup for the top-most layer, STOP searching directly.
+        if (gotPopup) {
+            break;
         }
     }
 
@@ -264,8 +310,8 @@ function onPointerMove(evt) {
     } else {
         popupText += '</ul>';
     }
-    
-	if (doHighlight) {
+
+    if (doHighlight) {
         if (currentFeature !== highlight) {
             if (highlight) {
                 featureOverlay.getSource().removeFeature(highlight);
@@ -273,20 +319,20 @@ function onPointerMove(evt) {
             if (currentFeature) {
                 var featureStyle
                 if (typeof clusteredFeatures == "undefined") {
-					var style = currentLayer.getStyle();
-					var styleFunction = typeof style === 'function' ? style : function() { return style; };
-					featureStyle = styleFunction(currentFeature)[0];
-				} else {
-					featureStyle = currentLayer.getStyle().toString();
-				}
+                    var style = currentLayer.getStyle();
+                    var styleFunction = typeof style === 'function' ? style : function () { return style; };
+                    featureStyle = styleFunction(currentFeature)[0];
+                } else {
+                    featureStyle = currentLayer.getStyle().toString();
+                }
 
                 if (currentFeature.getGeometry().getType() == 'Point' || currentFeature.getGeometry().getType() == 'MultiPoint') {
                     var radius
-					if (typeof clusteredFeatures == "undefined") {
-						radius = featureStyle.getImage().getRadius();
-					} else {
-						radius = parseFloat(featureStyle.split('radius')[1].split(' ')[1]) + clusterLength;
-					}
+                    if (typeof clusteredFeatures == "undefined") {
+                        radius = featureStyle.getImage().getRadius();
+                    } else {
+                        radius = parseFloat(featureStyle.split('radius')[1].split(' ')[1]) + clusterLength;
+                    }
 
                     highlightStyle = new ol.style.Style({
                         image: new ol.style.Circle({
@@ -324,12 +370,10 @@ function onPointerMove(evt) {
 
     if (doHover) {
         if (popupText) {
-			content.innerHTML = popupText;
-            container.style.display = 'block';
-            overlayPopup.setPosition(coord);
+            content.innerHTML = popupText;
+            showPopupWithGsap(coord);
         } else {
-            container.style.display = 'none';
-            closer.blur();
+            hidePopupWithGsap();
         }
     }
 };
@@ -344,13 +388,13 @@ function updatePopup() {
     if (popupContent) {
         content.innerHTML = popupContent;
         container.style.display = 'block';
-		overlayPopup.setPosition(popupCoord);
+        overlayPopup.setPosition(popupCoord);
     } else {
         container.style.display = 'none';
         closer.blur();
         stopMediaInPopup();
     }
-} 
+}
 
 function onSingleClickFeatures(evt) {
     if (doHover || sketch) {
@@ -365,8 +409,8 @@ function onSingleClickFeatures(evt) {
     var currentFeatureKeys;
     var clusteredFeatures;
     var popupText = '<ul>';
-    
-    map.forEachFeatureAtPixel(pixel, function(feature, layer) {
+
+    map.forEachFeatureAtPixel(pixel, function (feature, layer) {
         if (layer && feature instanceof ol.Feature && (layer.get("interactive") || layer.get("interactive") === undefined)) {
             var doPopup = false;
             for (var k in layer.get('fieldImages')) {
@@ -378,14 +422,15 @@ function onSingleClickFeatures(evt) {
             clusteredFeatures = feature.get("features");
             if (typeof clusteredFeatures !== "undefined") {
                 if (doPopup) {
-                    for(var n = 0; n < clusteredFeatures.length; n++) {
+                    for (var n = 0; n < clusteredFeatures.length; n++) {
                         currentFeature = clusteredFeatures[n];
                         currentFeatureKeys = currentFeature.getKeys();
                         popupText += '<li><table>';
                         popupText += '<a><b>' + layer.get('popuplayertitle') + '</b></a>';
                         popupText += createPopupField(currentFeature, currentFeatureKeys, layer);
-                        popupText += '</table></li>';    
+                        popupText += '</table></li>';
                     }
+                    return true; // STOP after finding cluster
                 }
             } else {
                 currentFeatureKeys = currentFeature.getKeys();
@@ -394,6 +439,7 @@ function onSingleClickFeatures(evt) {
                     popupText += '<a><b>' + layer.get('popuplayertitle') + '</b></a>';
                     popupText += createPopupField(currentFeature, currentFeatureKeys, layer);
                     popupText += '</table>';
+                    return true; // STOP after finding single feature
                 }
             }
         }
@@ -403,8 +449,8 @@ function onSingleClickFeatures(evt) {
     } else {
         popupText += '</ul>';
     }
-	
-	popupContent = popupText;
+
+    popupContent = popupText;
     popupCoord = coord;
     updatePopup();
 }
@@ -424,8 +470,8 @@ function onSingleClickWMS(evt) {
         if (wms_layers[i][1] && wms_layers[i][0].getVisible()) {
             var url = wms_layers[i][0].getSource().getFeatureInfoUrl(
                 evt.coordinate, viewResolution, viewProjection, {
-                    'INFO_FORMAT': 'text/html',
-                });
+                'INFO_FORMAT': 'text/html',
+            });
             if (url) {
                 const wmsTitle = wms_layers[i][0].get('popuplayertitle');
                 var ldsRoller = '<div class="roller-switcher" style="height: 25px; width: 25px;"></div>';
@@ -504,7 +550,7 @@ var Title = new ol.control.Control({
     target: 'top-left-container'
 });
 map.addControl(Title)
-    
+
 //abstract
 
 var Abstract = new ol.control.Control({
@@ -520,13 +566,13 @@ var Abstract = new ol.control.Control({
             linkElement.setAttribute("onmouseleave", "hideAbstract()");
             linkElement.innerHTML = 'i';
 
-            window.hideAbstract = function() {
+            window.hideAbstract = function () {
                 linkElement.classList.add("project-abstract");
                 linkElement.classList.remove("project-abstract-uncollapsed");
                 linkElement.innerHTML = 'i';
             }
 
-            window.showAbstract = function() {
+            window.showAbstract = function () {
                 linkElement.classList.remove("project-abstract");
                 linkElement.classList.add("project-abstract-uncollapsed");
                 linkElement.innerHTML = 'Perumahan di Mulyorejo menawarkan berbagai pilihan hunian yang terletak di kawasan strategis dengan akses mudah ke jalan raya utama. Beberapa perumahan yang ada di antaranya adalah Perumahan Mulyorejo Residence, Pondok Indah Mulyorejo-Mandiri, dan Perumahan Pondok Cempaka Indah. Kawasan perumahan ini didesain dengan konsep yang nyaman, dilengkapi dengan fasilitas seperti area terbuka hijau, keamanan 24 jam, dan akses transportasi yang baik.';
@@ -553,320 +599,320 @@ map.addControl(Abstract);
 //measurement
 let measuring = false;
 
-	const measureButton = document.createElement('button');
-	measureButton.className = 'measure-button fas fa-ruler';
-	measureButton.title = 'Measure';
+const measureButton = document.createElement('button');
+measureButton.className = 'measure-button fas fa-ruler';
+measureButton.title = 'Measure';
 
-	const measureControl = document.createElement('div');
-	measureControl.className = 'ol-unselectable ol-control measure-control';
-	measureControl.appendChild(measureButton);
-	map.getTargetElement().appendChild(measureControl);
+const measureControl = document.createElement('div');
+measureControl.className = 'ol-unselectable ol-control measure-control';
+measureControl.appendChild(measureButton);
+map.getTargetElement().appendChild(measureControl);
 
-	// Event handler
-	function handleMeasure() {
-	  if (!measuring) {
-		selectLabel.style.display = "";
-		map.addInteraction(draw);
-		createHelpTooltip();
-		createMeasureTooltip();
-		measuring = true;
-	  } else {
-		selectLabel.style.display = "none";
-		map.removeInteraction(draw);
-		map.removeOverlay(helpTooltip);
-		map.removeOverlay(measureTooltip);
-		const staticTooltips = document.getElementsByClassName("tooltip-static");
-		while (staticTooltips.length > 0) {
-		  staticTooltips[0].parentNode.removeChild(staticTooltips[0]);
-		}
-		measureLayer.getSource().clear();
-		sketch = null;
-		measuring = false;
-	  }
-	}
-
-	measureButton.addEventListener('click', handleMeasure);
-	measureButton.addEventListener('touchstart', handleMeasure);
-
-    map.on('pointermove', function(evt) {
-        if (evt.dragging) {
-            return;
+// Event handler
+function handleMeasure() {
+    if (!measuring) {
+        selectLabel.style.display = "";
+        map.addInteraction(draw);
+        createHelpTooltip();
+        createMeasureTooltip();
+        measuring = true;
+    } else {
+        selectLabel.style.display = "none";
+        map.removeInteraction(draw);
+        map.removeOverlay(helpTooltip);
+        map.removeOverlay(measureTooltip);
+        const staticTooltips = document.getElementsByClassName("tooltip-static");
+        while (staticTooltips.length > 0) {
+            staticTooltips[0].parentNode.removeChild(staticTooltips[0]);
         }
-        if (measuring) {
-            /** @type {string} */
-            var helpMsg = 'Click to start drawing';
-            if (sketch) {
-                var geom = (sketch.getGeometry());
-                if (geom instanceof ol.geom.Polygon) {
-                    helpMsg = continuePolygonMsg;
-                } else if (geom instanceof ol.geom.LineString) {
-                    helpMsg = continueLineMsg;
-                }
+        measureLayer.getSource().clear();
+        sketch = null;
+        measuring = false;
+    }
+}
+
+measureButton.addEventListener('click', handleMeasure);
+measureButton.addEventListener('touchstart', handleMeasure);
+
+map.on('pointermove', function (evt) {
+    if (evt.dragging) {
+        return;
+    }
+    if (measuring) {
+        /** @type {string} */
+        var helpMsg = 'Click to start drawing';
+        if (sketch) {
+            var geom = (sketch.getGeometry());
+            if (geom instanceof ol.geom.Polygon) {
+                helpMsg = continuePolygonMsg;
+            } else if (geom instanceof ol.geom.LineString) {
+                helpMsg = continueLineMsg;
             }
-            helpTooltipElement.innerHTML = helpMsg;
-            helpTooltip.setPosition(evt.coordinate);
+        }
+        helpTooltipElement.innerHTML = helpMsg;
+        helpTooltip.setPosition(evt.coordinate);
+    }
+});
+
+
+var selectLabel = document.createElement("label");
+selectLabel.innerHTML = "&nbsp;Measure:&nbsp;";
+
+var typeSelect = document.createElement("select");
+typeSelect.id = "type";
+
+var measurementOption = [
+    { value: "LineString", description: "Length" },
+    { value: "Polygon", description: "Area" }
+];
+measurementOption.forEach(function (option) {
+    var optionElement = document.createElement("option");
+    optionElement.value = option.value;
+    optionElement.text = option.description;
+    typeSelect.appendChild(optionElement);
+});
+
+selectLabel.appendChild(typeSelect);
+measureControl.appendChild(selectLabel);
+
+selectLabel.style.display = "none";
+/**
+ * Currently drawn feature.
+ * @type {ol.Feature}
+ */
+
+/**
+ * The help tooltip element.
+ * @type {Element}
+ */
+var helpTooltipElement;
+
+
+/**
+ * Overlay to show the help messages.
+ * @type {ol.Overlay}
+ */
+var helpTooltip;
+
+
+/**
+ * The measure tooltip element.
+ * @type {Element}
+ */
+var measureTooltipElement;
+
+
+/**
+ * Overlay to show the measurement.
+ * @type {ol.Overlay}
+ */
+var measureTooltip;
+
+
+/**
+ * Message to show when the user is drawing a line.
+ * @type {string}
+ */
+var continueLineMsg = 'Click to continue drawing the line';
+
+
+
+/**
+ * Message to show when the user is drawing a polygon.
+ * @type {string}
+ */
+var continuePolygonMsg = "1click continue, 2click close";
+
+
+var typeSelect = document.getElementById("type");
+var typeSelectForm = document.getElementById("form_measure");
+
+typeSelect.onchange = function (e) {
+    map.removeInteraction(draw);
+    addInteraction();
+    map.addInteraction(draw);
+};
+
+var measureLineStyle = new ol.style.Style({
+    stroke: new ol.style.Stroke({
+        color: "rgba(0, 0, 255)", //blu
+        lineDash: [10, 10],
+        width: 4
+    }),
+    image: new ol.style.Circle({
+        radius: 6,
+        stroke: new ol.style.Stroke({
+            color: "rgba(255, 255, 255)",
+            width: 1
+        }),
+    })
+});
+
+var measureLineStyle2 = new ol.style.Style({
+    stroke: new ol.style.Stroke({
+        color: "rgba(255, 255, 255)",
+        lineDash: [10, 10],
+        width: 2
+    }),
+    image: new ol.style.Circle({
+        radius: 5,
+        stroke: new ol.style.Stroke({
+            color: "rgba(0, 0, 255)",
+            width: 1
+        }),
+        fill: new ol.style.Fill({
+            color: "rgba(255, 204, 51, 0.4)",
+        }),
+    })
+});
+
+var labelStyle = new ol.style.Style({
+    text: new ol.style.Text({
+        font: "14px Calibri,sans-serif",
+        fill: new ol.style.Fill({
+            color: "rgba(0, 0, 0, 1)"
+        }),
+        stroke: new ol.style.Stroke({
+            color: "rgba(255, 255, 255, 1)",
+            width: 3
+        })
+    })
+});
+
+var labelStyleCache = [];
+
+var styleFunction = function (feature, type) {
+    var styles = [measureLineStyle, measureLineStyle2];
+    var geometry = feature.getGeometry();
+    var type = geometry.getType();
+    var lineString;
+    if (!type || type === type) {
+        if (type === "Polygon") {
+            lineString = new ol.geom.LineString(geometry.getCoordinates()[0]);
+        } else if (type === "LineString") {
+            lineString = geometry;
+        }
+    }
+    if (lineString) {
+        var count = 0;
+        lineString.forEachSegment(function (a, b) {
+            var segment = new ol.geom.LineString([a, b]);
+            var label = formatLength(segment);
+            if (labelStyleCache.length - 1 < count) {
+                labelStyleCache.push(labelStyle.clone());
+            }
+            labelStyleCache[count].setGeometry(segment);
+            labelStyleCache[count].getText().setText(label);
+            styles.push(labelStyleCache[count]);
+            count++;
+        });
+    }
+    return styles;
+};
+var source = new ol.source.Vector();
+
+var measureLayer = new ol.layer.Vector({
+    source: source,
+    displayInLayerSwitcher: false,
+    style: function (feature) {
+        labelStyleCache = [];
+        return styleFunction(feature);
+    }
+});
+
+map.addLayer(measureLayer);
+
+var draw; // global so we can remove it later
+function addInteraction() {
+    var type = typeSelect.value;
+    draw = new ol.interaction.Draw({
+        source: source,
+        type: /** @type {ol.geom.GeometryType} */ (type),
+        style: function (feature) {
+            return styleFunction(feature, type);
         }
     });
-    
 
-    var selectLabel = document.createElement("label");
-    selectLabel.innerHTML = "&nbsp;Measure:&nbsp;";
+    var listener;
+    draw.on('drawstart',
+        function (evt) {
+            // set sketch
+            sketch = evt.feature;
 
-    var typeSelect = document.createElement("select");
-    typeSelect.id = "type";
+            /** @type {ol.Coordinate|undefined} */
+            var tooltipCoord = evt.coordinate;
 
-    var measurementOption = [
-        { value: "LineString", description: "Length" },
-        { value: "Polygon", description: "Area" }
-        ];
-    measurementOption.forEach(function (option) {
-        var optionElement = document.createElement("option");
-        optionElement.value = option.value;
-        optionElement.text = option.description;
-        typeSelect.appendChild(optionElement);
+            listener = sketch.getGeometry().on('change', function (evt) {
+                var geom = evt.target;
+                var output;
+                if (geom instanceof ol.geom.Polygon) {
+                    output = formatArea(/** @type {ol.geom.Polygon} */(geom));
+                    tooltipCoord = geom.getInteriorPoint().getCoordinates();
+                } else if (geom instanceof ol.geom.LineString) {
+                    output = formatLength(/** @type {ol.geom.LineString} */(geom));
+                    tooltipCoord = geom.getLastCoordinate();
+                }
+                measureTooltipElement.innerHTML = output;
+                measureTooltip.setPosition(tooltipCoord);
+            });
+        }, this);
+
+    draw.on('drawend',
+        function (evt) {
+            measureTooltipElement.className = 'tooltip tooltip-static';
+            measureTooltip.setOffset([0, -7]);
+            // unset sketch
+            sketch = null;
+            // unset tooltip so that a new one can be created
+            measureTooltipElement = null;
+            createMeasureTooltip();
+            ol.Observable.unByKey(listener);
+        }, this);
+}
+
+
+/**
+ * Creates a new help tooltip
+ */
+function createHelpTooltip() {
+    if (helpTooltipElement) {
+        helpTooltipElement.parentNode.removeChild(helpTooltipElement);
+    }
+    helpTooltipElement = document.createElement('div');
+    helpTooltipElement.className = 'tooltip hidden';
+    helpTooltip = new ol.Overlay({
+        element: helpTooltipElement,
+        offset: [15, 0],
+        positioning: 'center-left'
     });
-
-    selectLabel.appendChild(typeSelect);
-    measureControl.appendChild(selectLabel);
-
-    selectLabel.style.display = "none";
-	/**
-	 * Currently drawn feature.
-	 * @type {ol.Feature}
-	 */
-
-	/**
-	 * The help tooltip element.
-	 * @type {Element}
-	 */
-	var helpTooltipElement;
+    map.addOverlay(helpTooltip);
+}
 
 
-	/**
-	 * Overlay to show the help messages.
-	 * @type {ol.Overlay}
-	 */
-	var helpTooltip;
+/**
+ * Creates a new measure tooltip
+ */
+function createMeasureTooltip() {
+    if (measureTooltipElement) {
+        measureTooltipElement.parentNode.removeChild(measureTooltipElement);
+    }
+    measureTooltipElement = document.createElement('div');
+    measureTooltipElement.className = 'tooltip tooltip-measure';
+    measureTooltip = new ol.Overlay({
+        element: measureTooltipElement,
+        offset: [0, -15],
+        positioning: 'bottom-center'
+    });
+    map.addOverlay(measureTooltip);
+}
 
 
-	/**
-	 * The measure tooltip element.
-	 * @type {Element}
-	 */
-	var measureTooltipElement;
-
-
-	/**
-	 * Overlay to show the measurement.
-	 * @type {ol.Overlay}
-	 */
-	var measureTooltip;
-
-
-	/**
-	 * Message to show when the user is drawing a line.
-	 * @type {string}
-	 */
-	var continueLineMsg = 'Click to continue drawing the line';
-
-
-
-	/**
-	 * Message to show when the user is drawing a polygon.
-	 * @type {string}
-	 */
-	var continuePolygonMsg = "1click continue, 2click close";
-
-
-	var typeSelect = document.getElementById("type");
-	var typeSelectForm = document.getElementById("form_measure");
-
-	typeSelect.onchange = function (e) {		  
-	  map.removeInteraction(draw);
-	  addInteraction();
-	  map.addInteraction(draw);		  
-	};
-
-	var measureLineStyle = new ol.style.Style({
-	  stroke: new ol.style.Stroke({ 
-		color: "rgba(0, 0, 255)", //blu
-		lineDash: [10, 10],
-		width: 4
-	  }),
-	  image: new ol.style.Circle({
-		radius: 6,
-		stroke: new ol.style.Stroke({
-		  color: "rgba(255, 255, 255)", 
-		  width: 1
-		}),
-	  })
-	});
-
-	var measureLineStyle2 = new ol.style.Style({	  
-		stroke: new ol.style.Stroke({
-			color: "rgba(255, 255, 255)", 
-			lineDash: [10, 10],
-			width: 2
-		  }),
-	  image: new ol.style.Circle({
-		radius: 5,
-		stroke: new ol.style.Stroke({
-		  color: "rgba(0, 0, 255)", 
-		  width: 1
-		}),
-			  fill: new ol.style.Fill({
-		  color: "rgba(255, 204, 51, 0.4)", 
-		}),
-		  })
-	});
-
-	var labelStyle = new ol.style.Style({
-	  text: new ol.style.Text({
-		font: "14px Calibri,sans-serif",
-		fill: new ol.style.Fill({
-		  color: "rgba(0, 0, 0, 1)"
-		}),
-		stroke: new ol.style.Stroke({
-		  color: "rgba(255, 255, 255, 1)",
-		  width: 3
-		})
-	  })
-	});
-
-	var labelStyleCache = [];
-
-	var styleFunction = function (feature, type) {
-	  var styles = [measureLineStyle, measureLineStyle2];
-	  var geometry = feature.getGeometry();
-	  var type = geometry.getType();
-	  var lineString;
-	  if (!type || type === type) {
-		if (type === "Polygon") {
-		  lineString = new ol.geom.LineString(geometry.getCoordinates()[0]);
-		} else if (type === "LineString") {
-		  lineString = geometry;
-		}
-	  }
-	  if (lineString) {
-		var count = 0;
-		lineString.forEachSegment(function (a, b) {
-		  var segment = new ol.geom.LineString([a, b]);
-		  var label = formatLength(segment);
-		  if (labelStyleCache.length - 1 < count) {
-			labelStyleCache.push(labelStyle.clone());
-		  }
-		  labelStyleCache[count].setGeometry(segment);
-		  labelStyleCache[count].getText().setText(label);
-		  styles.push(labelStyleCache[count]);
-		  count++;
-		});
-	  }
-	  return styles;
-	};
-	var source = new ol.source.Vector();
-
-	var measureLayer = new ol.layer.Vector({
-	  source: source,
-	  displayInLayerSwitcher: false,
-	  style: function (feature) {
-		labelStyleCache = [];
-		return styleFunction(feature);
-	  }
-	});
-
-	map.addLayer(measureLayer);
-
-	var draw; // global so we can remove it later
-	function addInteraction() {
-	  var type = typeSelect.value;
-	  draw = new ol.interaction.Draw({
-		source: source,
-		type: /** @type {ol.geom.GeometryType} */ (type),
-		style: function (feature) {
-				  return styleFunction(feature, type);
-				}
-	  });
-
-	  var listener;
-	  draw.on('drawstart',
-		  function(evt) {
-			// set sketch
-			sketch = evt.feature;
-
-			/** @type {ol.Coordinate|undefined} */
-			var tooltipCoord = evt.coordinate;
-
-			listener = sketch.getGeometry().on('change', function(evt) {
-			  var geom = evt.target;
-			  var output;
-			  if (geom instanceof ol.geom.Polygon) {
-					  output = formatArea(/** @type {ol.geom.Polygon} */ (geom));
-					  tooltipCoord = geom.getInteriorPoint().getCoordinates();
-					} else if (geom instanceof ol.geom.LineString) {
-					  output = formatLength(/** @type {ol.geom.LineString} */ (geom));
-					  tooltipCoord = geom.getLastCoordinate();
-					}
-			  measureTooltipElement.innerHTML = output;
-			  measureTooltip.setPosition(tooltipCoord);
-			});
-		  }, this);
-
-	  draw.on('drawend',
-		  function(evt) {
-			measureTooltipElement.className = 'tooltip tooltip-static';
-			measureTooltip.setOffset([0, -7]);
-			// unset sketch
-			sketch = null;
-			// unset tooltip so that a new one can be created
-			measureTooltipElement = null;
-			createMeasureTooltip();
-			ol.Observable.unByKey(listener);
-		  }, this);
-	}
-
-
-	/**
-	 * Creates a new help tooltip
-	 */
-	function createHelpTooltip() {
-	  if (helpTooltipElement) {
-		helpTooltipElement.parentNode.removeChild(helpTooltipElement);
-	  }
-	  helpTooltipElement = document.createElement('div');
-	  helpTooltipElement.className = 'tooltip hidden';
-	  helpTooltip = new ol.Overlay({
-		element: helpTooltipElement,
-		offset: [15, 0],
-		positioning: 'center-left'
-	  });
-	  map.addOverlay(helpTooltip);
-	}
-
-
-	/**
-	 * Creates a new measure tooltip
-	 */
-	function createMeasureTooltip() {
-	  if (measureTooltipElement) {
-		measureTooltipElement.parentNode.removeChild(measureTooltipElement);
-	  }
-	  measureTooltipElement = document.createElement('div');
-	  measureTooltipElement.className = 'tooltip tooltip-measure';
-	  measureTooltip = new ol.Overlay({
-		element: measureTooltipElement,
-		offset: [0, -15],
-		positioning: 'bottom-center'
-	  });
-	  map.addOverlay(measureTooltip);
-	}
-
-
-  /**
-  * format length output
-  * @param {ol.geom.LineString} line
-  * @return {string}
-  */
-  var formatLength = function(line) {
+/**
+* format length output
+* @param {ol.geom.LineString} line
+* @return {string}
+*/
+var formatLength = function (line) {
     var length;
     var coordinates = line.getCoordinates();
     length = 0;
@@ -875,43 +921,43 @@ let measuring = false;
         var c1 = ol.proj.transform(coordinates[i], sourceProj, 'EPSG:4326');
         var c2 = ol.proj.transform(coordinates[i + 1], sourceProj, 'EPSG:4326');
         length += ol.sphere.getDistance(c1, c2);
-      }
+    }
     var output;
     if (length > 100) {
-      output = (Math.round(length / 1000 * 100) / 100) +
-          ' ' + 'km';
+        output = (Math.round(length / 1000 * 100) / 100) +
+            ' ' + 'km';
     } else {
-      output = (Math.round(length * 100) / 100) +
-          ' ' + 'm';
+        output = (Math.round(length * 100) / 100) +
+            ' ' + 'm';
     }
     return output;
-  };
+};
 
-  /**
-  * Format area output.
-  * @param {ol.geom.Polygon} polygon The polygon.
-  * @return {string} Formatted area.
-  */
-	var formatArea = function (polygon) {
-		var sourceProj = map.getView().getProjection();
-		var geom = polygon.clone().transform(sourceProj, 'EPSG:3857');
-		var area = Math.abs(ol.sphere.getArea(geom));
-		var output;
-		if (area > 1000000) {
-			output = Math.round((area / 1000000) * 1000) / 1000 + ' ' + 'km<sup>2</sup>';
-		} else {
-			output = Math.round(area * 100) / 100 + ' ' + 'm<sup>2</sup>';
-		}
-		return output.replace('.', ',');
-	};
+/**
+* Format area output.
+* @param {ol.geom.Polygon} polygon The polygon.
+* @return {string} Formatted area.
+*/
+var formatArea = function (polygon) {
+    var sourceProj = map.getView().getProjection();
+    var geom = polygon.clone().transform(sourceProj, 'EPSG:3857');
+    var area = Math.abs(ol.sphere.getArea(geom));
+    var output;
+    if (area > 1000000) {
+        output = Math.round((area / 1000000) * 1000) / 1000 + ' ' + 'km<sup>2</sup>';
+    } else {
+        output = Math.round(area * 100) / 100 + ' ' + 'm<sup>2</sup>';
+    }
+    return output.replace('.', ',');
+};
 
-  addInteraction();
+addInteraction();
 
-  var parentElement = document.querySelector(".measure-control");
-  var elementToMove = document.getElementById("form_measure");
-  if (elementToMove && parentElement) {
+var parentElement = document.querySelector(".measure-control");
+var elementToMove = document.getElementById("form_measure");
+if (elementToMove && parentElement) {
     parentElement.insertBefore(elementToMove, parentElement.firstChild);
-  }
+}
 
 
 //geocoder
@@ -930,7 +976,7 @@ var searchLayer = new SearchLayer({
 map.addControl(searchLayer);
 document.getElementsByClassName('search-layer')[0].getElementsByTagName('button')[0].className += ' fa fa-binoculars';
 document.getElementsByClassName('search-layer-input-search')[0].placeholder = 'Search feature ...';
-    
+
 
 //scalebar
 
@@ -939,19 +985,19 @@ document.getElementsByClassName('search-layer-input-search')[0].placeholder = 'S
 
 var layerSwitcher = new ol.control.LayerSwitcher({
     activationMode: 'click',
-	startActive: true,
-	tipLabel: "Layers",
+    startActive: true,
+    tipLabel: "Layers",
     target: 'top-right-container',
-	collapseLabel: '»',
-	collapseTipLabel: 'Close'
-    });
+    collapseLabel: '»',
+    collapseTipLabel: 'Close'
+});
 map.addControl(layerSwitcher);
 if (hasTouchScreen || isSmallScreen) {
-	document.addEventListener('DOMContentLoaded', function() {
-		setTimeout(function() {
-			layerSwitcher.hidePanel();
-		}, 500);
-	});	
+    document.addEventListener('DOMContentLoaded', function () {
+        setTimeout(function () {
+            layerSwitcher.hidePanel();
+        }, 500);
+    });
 }
 
 
@@ -961,9 +1007,9 @@ if (hasTouchScreen || isSmallScreen) {
 
 //attribution
 var bottomAttribution = new ol.control.Attribution({
-  collapsible: false,
-  collapsed: false,
-  className: 'bottom-attribution'
+    collapsible: false,
+    collapsed: false,
+    className: 'bottom-attribution'
 });
 map.addControl(bottomAttribution);
 
@@ -975,7 +1021,7 @@ attributionList.innerHTML = `
 `;
 var bottomAttributionUl = bottomAttribution.element.querySelector('ul');
 if (bottomAttributionUl) {
-  bottomAttribution.element.insertBefore(attributionList, bottomAttributionUl);
+    bottomAttribution.element.insertBefore(attributionList, bottomAttributionUl);
 }
 
 
@@ -983,56 +1029,56 @@ if (bottomAttributionUl) {
 var preDoHover = doHover;
 var preDoHighlight = doHighlight;
 var isPopupAllActive = false;
-document.addEventListener('DOMContentLoaded', function() {
-	if (doHover || doHighlight) {
-		var controlElements = document.getElementsByClassName('ol-control');
-		for (var i = 0; i < controlElements.length; i++) {
-			controlElements[i].addEventListener('mouseover', function() { 
-				doHover = false;
-				doHighlight = false;
-			});
-			controlElements[i].addEventListener('mouseout', function() {
-				doHover = preDoHover;
-				if (isPopupAllActive) { return }
-				doHighlight = preDoHighlight;
-			});
-		}
-	}
+document.addEventListener('DOMContentLoaded', function () {
+    if (doHover || doHighlight) {
+        var controlElements = document.getElementsByClassName('ol-control');
+        for (var i = 0; i < controlElements.length; i++) {
+            controlElements[i].addEventListener('mouseover', function () {
+                doHover = false;
+                doHighlight = false;
+            });
+            controlElements[i].addEventListener('mouseout', function () {
+                doHover = preDoHover;
+                if (isPopupAllActive) { return }
+                doHighlight = preDoHighlight;
+            });
+        }
+    }
 });
 
 
 //move controls inside containers, in order
-    //zoom
-    var zoomControl = document.getElementsByClassName('ol-zoom')[0];
-    if (zoomControl) {
-        topLeftContainerDiv.appendChild(zoomControl);
-    }
-    //geolocate
-    if (typeof geolocateControl !== 'undefined') {
-        topLeftContainerDiv.appendChild(geolocateControl);
-    }
-    //measure
-    if (typeof measureControl !== 'undefined') {
-        topLeftContainerDiv.appendChild(measureControl);
-    }
-    //geocoder
-    var searchbar = document.getElementsByClassName('photon-geocoder-autocomplete ol-unselectable ol-control')[0];
-    if (searchbar) {
-        topLeftContainerDiv.appendChild(searchbar);
-    }
-    //search layer
-    var searchLayerControl = document.getElementsByClassName('search-layer')[0];
-    if (searchLayerControl) {
-        topLeftContainerDiv.appendChild(searchLayerControl);
-    }
-    //scale line
-    var scaleLineControl = document.getElementsByClassName('ol-scale-line')[0];
-    if (scaleLineControl) {
-        scaleLineControl.className += ' ol-control';
-        bottomLeftContainerDiv.appendChild(scaleLineControl);
-    }
-    //attribution
-    var attributionControl = document.getElementsByClassName('bottom-attribution')[0];
-    if (attributionControl) {
-        bottomRightContainerDiv.appendChild(attributionControl);
-    }
+//zoom
+var zoomControl = document.getElementsByClassName('ol-zoom')[0];
+if (zoomControl) {
+    topLeftContainerDiv.appendChild(zoomControl);
+}
+//geolocate
+if (typeof geolocateControl !== 'undefined') {
+    topLeftContainerDiv.appendChild(geolocateControl);
+}
+//measure
+if (typeof measureControl !== 'undefined') {
+    topLeftContainerDiv.appendChild(measureControl);
+}
+//geocoder
+var searchbar = document.getElementsByClassName('photon-geocoder-autocomplete ol-unselectable ol-control')[0];
+if (searchbar) {
+    topLeftContainerDiv.appendChild(searchbar);
+}
+//search layer
+var searchLayerControl = document.getElementsByClassName('search-layer')[0];
+if (searchLayerControl) {
+    topLeftContainerDiv.appendChild(searchLayerControl);
+}
+//scale line
+var scaleLineControl = document.getElementsByClassName('ol-scale-line')[0];
+if (scaleLineControl) {
+    scaleLineControl.className += ' ol-control';
+    bottomLeftContainerDiv.appendChild(scaleLineControl);
+}
+//attribution
+var attributionControl = document.getElementsByClassName('bottom-attribution')[0];
+if (attributionControl) {
+    bottomRightContainerDiv.appendChild(attributionControl);
+}
