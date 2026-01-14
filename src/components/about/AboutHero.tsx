@@ -101,7 +101,7 @@ export const AboutHero = () => {
                         <img
                             src={Assets.foto}
                             alt="Profile"
-                            className="w-full h-full object-cover relative z-10 rounded-[2rem]"
+                            className="w-full h-full object-cover relative z-10"
                         />
 
                         {/* Glass Reflection Overlay */}
