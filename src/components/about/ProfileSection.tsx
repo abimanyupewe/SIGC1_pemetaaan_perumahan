@@ -163,7 +163,7 @@ export const ProfileSection = () => {
                                     <Button
                                         variant="link"
                                         className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 text-base font-semibold p-0 h-auto group"
-                                        onClick={() => window.location.href = '#portfolio'}
+                                        onClick={() => window.location.href = 'https://portofolio-nextjs-phi.vercel.app/'}
                                     >
                                         Lihat Portofolio 
                                         <span className="inline-block transform group-hover:translate-x-1 transition-transform duration-300">
