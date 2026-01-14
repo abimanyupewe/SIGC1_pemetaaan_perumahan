@@ -3,8 +3,10 @@ import MapComponent from '../web_gis';
 import { Button } from '../components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const FullMapPage: React.FC = () => {
+    useDocumentTitle('Peta Fullscreen - SIG Perumahan');
     const navigate = useNavigate();
 
     return (

@@ -14,6 +14,7 @@ import {
 import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Search, MapPin } from 'lucide-react';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 // Mock Data
 // Mock Data
@@ -36,6 +37,7 @@ const housingData = [
 ];
 
 export const DataPage = () => {
+    useDocumentTitle('Data Perumahan - SIG Mulyorejo');
     const [searchTerm, setSearchTerm] = useState("");
     const [loading, setLoading] = useState(true);
 

@@ -57,14 +57,14 @@ export const MapSection: React.FC = () => {
                 </div>
 
                 {/* Map Card */}
-                <div className="flex-grow w-full h-[70vh] md:h-[75vh] relative group">
+                <div className="flex-grow w-full h-[60vh] md:h-[75vh] relative group">
                     <div className="absolute -inset-1 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-[2.5rem] blur opacity-20 group-hover:opacity-40 transition duration-1000"></div>
                     <div className="relative h-full w-full bg-white dark:bg-card rounded-[2rem] shadow-2xl overflow-hidden border border-neutral-200 dark:border-white/10 ring-1 ring-black/5 dark:ring-white/10">
 
                         <MapComponent className="w-full h-full" />
 
                         {/* Top Overlay Controls */}
-                        <div className="absolute top-6 inset-x-6 flex justify-between items-start pointer-events-none">
+                        <div className="absolute top-4 inset-x-4 md:top-6 md:inset-x-6 flex justify-between items-start pointer-events-none">
                             <div className="bg-white/80 dark:bg-background/80 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-white/20 dark:border-white/10 pointer-events-auto">
                                 <p className="text-sm font-medium text-indigo-700 dark:text-indigo-300 flex items-center gap-2">
                                     <span className="flex h-2 w-2 rounded-full bg-indigo-500 animate-pulse"></span>

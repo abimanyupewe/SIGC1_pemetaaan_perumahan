@@ -6,8 +6,11 @@ import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { FaqSection } from '../components/FaqSection';
 import { LayoutMapSection } from '../components/LayoutMapSection';
+import { useDocumentTitle } from '../hooks/useDocumentTitle';
 
 const Home: React.FC = () => {
+    useDocumentTitle('Beranda - SIG Perumahan Mulyorejo');
+
     const scrollToMap = () => {
         const mapSection = document.getElementById('map-section');
         if (mapSection) {

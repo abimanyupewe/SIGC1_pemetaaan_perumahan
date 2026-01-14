@@ -66,7 +66,7 @@ const Counter = ({ value, suffix }: { value: number; suffix: string }) => {
 
 export const StatsSection = () => {
     return (
-        <section id="stats-section" className="py-24 bg-white dark:bg-background relative overflow-hidden">
+        <section id="stats-section" className="py-12 md:py-24 bg-white dark:bg-background relative overflow-hidden">
             {/* Background Decorations */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] right-[-5%] w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl dark:bg-indigo-500/5"></div>
