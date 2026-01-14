@@ -1,14 +1,22 @@
+import { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import LandingPage from './pages/LandingPage';
+import Home from './pages/Home';
 import FullMapPage from './pages/FullMapPage';
+import { DataPage } from './pages/DataPage';
+import { Preloader } from './components/Preloader';
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
   return (
-    <Routes>
-      <Route path="/" element={<LandingPage />} />
-      <Route path="/map" element={<FullMapPage />} />
-      {/* Add more routes here if needed, e.g., <Route path="/about" element={<AboutPage />} /> */}
-    </Routes>
+    <>
+      {loading && <Preloader onComplete={() => setLoading(false)} />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/data" element={<DataPage />} />
+        <Route path="/map" element={<FullMapPage />} />
+      </Routes>
+    </>
   );
 }
 
