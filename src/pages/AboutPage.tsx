@@ -3,6 +3,7 @@ import { Footer } from '../components/Footer';
 import { useDocumentTitle } from '../hooks/useDocumentTitle';
 import { AboutHero } from '../components/about/AboutHero';
 import { TechStack } from '../components/about/TechStack';
+import { ProfileSection } from '../components/about/ProfileSection';
 
 export const AboutPage = () => {
     useDocumentTitle('Tentang Kami - SIG Perumahan');
@@ -11,10 +12,11 @@ export const AboutPage = () => {
         <div className="min-h-screen bg-neutral-50 dark:bg-background font-sans flex flex-col">
             <Navbar />
 
-            <main className="">
-                <AboutHero />
-                <TechStack />
-            </main>
+
+            <AboutHero />
+            <ProfileSection />
+            <TechStack />
+
 
             <Footer />
         </div>

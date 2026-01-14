@@ -72,7 +72,7 @@ export const Footer = () => {
                 {/* Bottom Bar */}
                 <div className="pt-8 border-t border-neutral-100 dark:border-neutral-800 flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-sm text-neutral-500 dark:text-neutral-400 text-center md:text-left">
-                        &copy; {new Date().getFullYear()} SIG Pemetaan Perumahan. Developed by Clara.
+                        &copy; {new Date().getFullYear()} SIG Pemetaan Perumahan. Developed by Clara DXD AKA bimshexsos.
                     </p>
                     <div className="flex gap-6 text-sm text-neutral-500 dark:text-neutral-400">
                         <a href="#" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">Privacy Policy</a>
