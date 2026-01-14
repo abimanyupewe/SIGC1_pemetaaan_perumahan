@@ -3,7 +3,7 @@ import { useRef } from 'react';
 import { Github, Linkedin, Instagram } from 'lucide-react';
 import Assets from '../../assets/assets';
 
-// Custom Tiktok Icon since it might not be in all Lucide versions or we want a specific look
+// Custom Tiktok Icon
 const TiktokIcon = ({ className }: { className?: string }) => (
     <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -29,32 +29,32 @@ export const AboutHero = () => {
     });
 
     // Animate scale of the photo
-    const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.05]);
+    const scale = useTransform(scrollYProgress, [0, 0.5], [1, 1.1]);
 
     // Orbit Animation Variables
-    const radius = 280;
+    const radius = 350;
 
-    // Icon 1: Github - Top Left
-    const x1 = useTransform(scrollYProgress, [0.4, 0.8], [0, -radius * 0.7]);
-    const y1 = useTransform(scrollYProgress, [0.4, 0.8], [0, -radius * 0.7]);
+    // Icon 1: Github - Left Top Side
+    const x1 = useTransform(scrollYProgress, [0.4, 0.8], [0, -radius]);
+    const y1 = useTransform(scrollYProgress, [0.4, 0.8], [0, -50]);
 
-    // Icon 2: Instagram - Top Right
-    const x2 = useTransform(scrollYProgress, [0.4, 0.8], [0, radius * 0.7]);
-    const y2 = useTransform(scrollYProgress, [0.4, 0.8], [0, -radius * 0.7]);
+    // Icon 2: Instagram - Right Top Side
+    const x2 = useTransform(scrollYProgress, [0.4, 0.8], [0, radius]);
+    const y2 = useTransform(scrollYProgress, [0.4, 0.8], [0, -50]);
 
-    // Icon 3: Linkedin - Bottom Left
-    const x3 = useTransform(scrollYProgress, [0.4, 0.8], [0, -radius * 0.7]);
-    const y3 = useTransform(scrollYProgress, [0.4, 0.8], [0, radius * 0.7]);
+    // Icon 3: Linkedin - Left Bottom Side
+    const x3 = useTransform(scrollYProgress, [0.4, 0.8], [0, -radius * 0.8]);
+    const y3 = useTransform(scrollYProgress, [0.4, 0.8], [0, 80]);
 
-    // Icon 4: Tiktok - Bottom Right
-    const x4 = useTransform(scrollYProgress, [0.4, 0.8], [0, radius * 0.7]);
-    const y4 = useTransform(scrollYProgress, [0.4, 0.8], [0, radius * 0.7]);
+    // Icon 4: Tiktok - Right Bottom Side
+    const x4 = useTransform(scrollYProgress, [0.4, 0.8], [0, radius * 0.8]);
+    const y4 = useTransform(scrollYProgress, [0.4, 0.8], [0, 80]);
 
     // Opacity and Rotation for entrance effect
     const opacityIcons = useTransform(scrollYProgress, [0.3, 0.5], [0, 1]);
     const rotateIcons = useTransform(scrollYProgress, [0.3, 0.8], [180, 0]);
 
-    // Badge Opacity (Fades out quickly on scroll)
+    // Badge Opacity
     const opacityBadge = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
     const yBadge = useTransform(scrollYProgress, [0, 0.2], [0, -20]);
 
@@ -63,8 +63,20 @@ export const AboutHero = () => {
             <div className="sticky top-0 h-screen flex flex-col items-center justify-center overflow-hidden">
 
                 {/* Background Decoration */}
-                {/* Grid Pattern */}
+
+                {/* GIS Topographic Pattern - Subtle Map Lines */}
+                <div
+                    className="absolute inset-0 opacity-[0.03] dark:opacity-[0.05] pointer-events-none bg-cover bg-center"
+                    style={{ backgroundImage: "url('https://upload.wikimedia.org/wikipedia/commons/e/ec/Topographic_map_contour_lines.svg')" }}
+                />
+
+                {/* Grid Pattern Overlay */}
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:48px_48px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none" />
+
+                {/* Radar Scan Effect for GIS Theme */}
+                <div className="absolute w-[800px] h-[800px] rounded-full border border-indigo-500/10 dark:border-white/5 animate-[spin_20s_linear_infinite] pointer-events-none">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-transparent to-indigo-500/10 dark:to-white/5" />
+                </div>
 
                 {/* Glow Effect */}
                 <div className="absolute w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] -z-10 animate-pulse" />
@@ -76,7 +88,7 @@ export const AboutHero = () => {
                         style={{ opacity: opacityBadge, y: yBadge }}
                         className="absolute top-[15%] md:top-[20%] px-4 py-1.5 rounded-full bg-white/50 dark:bg-black/20 backdrop-blur-md border border-neutral-200 dark:border-neutral-800 text-sm font-medium text-neutral-600 dark:text-neutral-300"
                     >
-                        ✨ Meet the Developer
+                        Meet the Developer
                     </motion.div>
 
                     {/* Photo Container */}
@@ -90,7 +102,7 @@ export const AboutHero = () => {
                         <img
                             src={Assets.foto}
                             alt="Profile"
-                            className="w-full h-full object-cover relative z-10 rounded-[2rem] shadow-2xl border-2 border-white/20 dark:border-white/10"
+                            className="w-full h-full object-cover relative z-10 rounded-[2rem]"
                         />
 
                         {/* Glass Reflection Overlay */}
@@ -134,6 +146,7 @@ export const AboutHero = () => {
                     >
                         <TiktokIcon className="w-7 h-7" />
                     </motion.a>
+
                 </div>
             </div>
         </section>

@@ -18,6 +18,16 @@ export const Navbar = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    React.useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 20);
+        };
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
     React.useEffect(() => {
         if (location.pathname !== '/') return;
 
@@ -74,7 +84,14 @@ export const Navbar = () => {
     ];
 
     return (
-        <header className="fixed top-0 w-full z-50 bg-white/80 dark:bg-background/80 backdrop-blur-md border-b border-neutral-100 dark:border-neutral-800 transition-all duration-300">
+        <header
+            className={cn(
+                "fixed top-0 w-full z-50 transition-all duration-300 border-b",
+                isScrolled
+                    ? "bg-white/80 dark:bg-background/80 backdrop-blur-md border-neutral-200/50 dark:border-neutral-800 shadow-sm"
+                    : "bg-transparent border-transparent"
+            )}
+        >
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 {/* Logo */}
                 <div
