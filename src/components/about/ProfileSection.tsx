@@ -1,5 +1,5 @@
 
-import React, { useRef, useLayoutEffect } from "react";
+import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Assets from "../../assets/assets";
@@ -79,7 +79,7 @@ export const ProfileSection = () => {
         <section ref={sectionRef} className="py-24 relative overflow-hidden bg-neutral-50 dark:bg-neutral-950">
             {/* Dot Pattern Background - Distinct from Hero's Grid */}
             <div className="absolute inset-0 bg-white dark:bg-neutral-950 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#1f2937_1px,transparent_1px)] opacity-50 pointer-events-none" />
-            
+
             {/* Soft Ambient Glows - Different positions/colors */}
             <div className="absolute top-1/2 left-0 w-[500px] h-[500px] bg-sky-500/10 rounded-full blur-[120px] -translate-y-1/2 -translate-x-1/2 pointer-events-none" />
             <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[120px] translate-y-1/3 translate-x-1/3 pointer-events-none" />
@@ -87,7 +87,7 @@ export const ProfileSection = () => {
             <div className="container mx-auto px-4 relative z-10">
                 <div className="max-w-5xl mx-auto">
                     <div ref={cardRef} className="bg-white/80 dark:bg-neutral-900/80 backdrop-blur-xl rounded-3xl p-8 md:p-12 shadow-2xl border border-white/50 dark:border-white/10 relative overflow-hidden">
-                        
+
                         {/* Inner Card Decoration */}
                         <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
                         <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-500/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/3 pointer-events-none" />
@@ -142,19 +142,19 @@ export const ProfileSection = () => {
                                     <div className="flex items-center gap-6">
                                         <div className="group relative">
                                             <div className="absolute inset-0 bg-indigo-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                            <img 
-                                                src={Assets.logo_asia} 
-                                                alt="Institut Asia" 
-                                                className="relative h-10 w-auto object-contain opacity-70 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-300" 
+                                            <img
+                                                src={Assets.logo_asia}
+                                                alt="Institut Asia"
+                                                className="relative h-10 w-auto object-contain opacity-70 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-300"
                                             />
                                         </div>
                                         <div className="w-px h-8 bg-neutral-300 dark:bg-neutral-700" />
                                         <div className="group relative">
                                             <div className="absolute inset-0 bg-purple-500/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                            <img 
-                                                src={Assets.logo_ti} 
-                                                alt="Prodi TI" 
-                                                className="relative h-10 w-auto object-contain opacity-70 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-300" 
+                                            <img
+                                                src={Assets.logo_ti}
+                                                alt="Prodi TI"
+                                                className="relative h-10 w-auto object-contain opacity-70 hover:opacity-100 grayscale hover:grayscale-0 transition-all duration-300"
                                             />
                                         </div>
                                     </div>
@@ -165,7 +165,7 @@ export const ProfileSection = () => {
                                         className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-700 dark:hover:text-indigo-300 text-base font-semibold p-0 h-auto group"
                                         onClick={() => window.location.href = 'https://portofolio-nextjs-phi.vercel.app/'}
                                     >
-                                        Lihat Portofolio 
+                                        Lihat Portofolio
                                         <span className="inline-block transform group-hover:translate-x-1 transition-transform duration-300">
                                             <ArrowRight className="ml-2 w-4 h-4" />
                                         </span>

@@ -1,7 +1,7 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
 import { Button } from './ui/button';
-import { ArrowRight, Database, FileSpreadsheet, Layers } from 'lucide-react';
+import { ArrowRight, Database } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const DataPreviewSection = () => {
