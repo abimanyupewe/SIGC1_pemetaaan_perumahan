@@ -3,8 +3,9 @@ import { HeroSection } from '../components/HeroSection';
 import { StatsSection } from '../components/StatsSection';
 import { MapSection } from '../components/MapSection';
 import { Navbar } from '../components/Navbar';
-
 import { Footer } from '../components/Footer';
+import { FaqSection } from '../components/FaqSection';
+import { LayoutMapSection } from '../components/LayoutMapSection';
 
 const Home: React.FC = () => {
     const scrollToMap = () => {
@@ -19,8 +20,9 @@ const Home: React.FC = () => {
             <Navbar />
             <HeroSection onStartClick={scrollToMap} />
             <StatsSection />
+            <LayoutMapSection />
             <MapSection />
-
+            <FaqSection />
             <Footer />
         </div>
     );
