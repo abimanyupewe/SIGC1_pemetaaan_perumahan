@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Navbar } from '../components/Navbar';
 import { Preloader } from '../components/Preloader';
+import { Footer } from '../components/Footer';
 import {
     Table,
     TableBody,
@@ -14,6 +15,7 @@ import { Input } from "../components/ui/input";
 import { Button } from "../components/ui/button";
 import { Search, MapPin } from 'lucide-react';
 
+// Mock Data
 // Mock Data
 const housingData = [
     { id: 1, name: "Perumahan Mulyorejo Indah", kelurahan: "Mulyorejo", luas: "2.5 Ha", unit: 150, status: "Terpetakan" },
@@ -53,11 +55,10 @@ export const DataPage = () => {
     return (
         <>
             {loading && <Preloader onComplete={() => setLoading(false)} />}
-            <div className="min-h-screen bg-neutral-50 dark:bg-background font-sans">
-                {/* Reusing Navbar - It will handle its own active state largely, though we might want to ensure 'data' is recognized if we updated Navbar logic, but for now simple link is fine */}
+            <div className="min-h-screen bg-neutral-50 dark:bg-background font-sans flex flex-col">
                 <Navbar />
 
-                <main className="container mx-auto px-4 pt-24 pb-12">
+                <main className="container mx-auto px-4 pt-24 pb-12 flex-grow">
                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
                         <div>
                             <h1 className="text-3xl font-bold text-neutral-900 dark:text-neutral-100 mb-2">Data Perumahan</h1>
@@ -123,7 +124,7 @@ export const DataPage = () => {
                                                             ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
                                                             : 'bg-neutral-100 text-neutral-800 dark:bg-neutral-800 dark:text-neutral-400'
                                                     }
-                                            `}>
+                                                `}>
                                                     {item.status}
                                                 </span>
                                             </TableCell>
@@ -145,6 +146,7 @@ export const DataPage = () => {
                         </Table>
                     </div>
                 </main>
+                <Footer />
             </div>
         </>
     );

@@ -4,6 +4,8 @@ import { StatsSection } from '../components/StatsSection';
 import { MapSection } from '../components/MapSection';
 import { Navbar } from '../components/Navbar';
 
+import { Footer } from '../components/Footer';
+
 const Home: React.FC = () => {
     const scrollToMap = () => {
         const mapSection = document.getElementById('map-section');
@@ -19,10 +21,7 @@ const Home: React.FC = () => {
             <StatsSection />
             <MapSection />
 
-            {/* Simple Footer */}
-            <footer className="py-8 text-center text-slate-400 text-sm">
-                &copy; {new Date().getFullYear()} SIG Pemetaan Perumahan. All rights reserved.
-            </footer>
+            <Footer />
         </div>
     );
 };
