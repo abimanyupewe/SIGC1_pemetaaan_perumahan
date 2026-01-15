@@ -132,7 +132,7 @@ export const ProfileSection = () => {
                                         </div>
                                         <div>
                                             <p className="text-xs text-neutral-500 dark:text-neutral-400 uppercase tracking-wider font-semibold mb-1">NIM</p>
-                                            <p className="font-semibold text-neutral-900 dark:text-white">22202028</p>
+                                            <p className="font-semibold text-neutral-900 dark:text-white">23201245</p>
                                         </div>
                                     </div>
                                 </div>
