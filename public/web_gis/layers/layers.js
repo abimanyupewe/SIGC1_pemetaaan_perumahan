@@ -193,7 +193,7 @@ var lyr_PERUMAHAN_12 = new ol.layer.Vector({
 });
 
 lyr_OpenStreetMap_0.setVisible(true); lyr_AREAKELURAHAN_1.setVisible(true); lyr_FASILITASUMUM_2.setVisible(true); lyr_JALANANTARKOTA_3.setVisible(true); lyr_JALANGANG_4.setVisible(true); lyr_JALANKAMPUNG_5.setVisible(true); lyr_JALANPERUMAHAN_6.setVisible(true); lyr_SUNGAI_7.setVisible(true); lyr_JALANRAYA_8.setVisible(true); lyr_LAHANTERBUKAHIJAU_9.setVisible(true); lyr_AREAPERUMAHAN_10.setVisible(true); lyr_AREASAWAH_11.setVisible(true); lyr_PERUMAHAN_12.setVisible(true);
-var layersList = [lyr_OpenStreetMap_0, lyr_AREAKELURAHAN_1, lyr_FASILITASUMUM_2, lyr_JALANANTARKOTA_3, lyr_JALANGANG_4, lyr_JALANKAMPUNG_5, lyr_JALANPERUMAHAN_6, lyr_SUNGAI_7, lyr_JALANRAYA_8, lyr_LAHANTERBUKAHIJAU_9, lyr_AREAPERUMAHAN_10, lyr_AREASAWAH_11, lyr_PERUMAHAN_12];
+var layersList = [lyr_OpenStreetMap_0, lyr_AREAKELURAHAN_1, lyr_AREASAWAH_11, lyr_AREAPERUMAHAN_10, lyr_LAHANTERBUKAHIJAU_9, lyr_FASILITASUMUM_2, lyr_SUNGAI_7, lyr_JALANANTARKOTA_3, lyr_JALANGANG_4, lyr_JALANKAMPUNG_5, lyr_JALANPERUMAHAN_6, lyr_JALANRAYA_8, lyr_PERUMAHAN_12];
 lyr_AREAKELURAHAN_1.set('fieldAliases', { 'id': 'id', 'Nama': 'Nama Kelurahan', 'Kode Pos': 'Kode Pos', 'Luas': 'Luas (m²)', 'Penduduk': 'Jumlah Penduduk', 'Hectar': 'Luas (Ha)', });
 lyr_FASILITASUMUM_2.set('fieldAliases', { 'id': 'id', 'Nama': 'Nama Fasilitas', 'Luas': 'Luas (m²)', 'Hectar': 'Luas (Ha)', });
 lyr_JALANANTARKOTA_3.set('fieldAliases', { 'id': 'id', 'namaJalan': 'Nama Jalan', 'pjgJalan': 'Panjang (m)', 'Km': 'Panjang (Km)', });
