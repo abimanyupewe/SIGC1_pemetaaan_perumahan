@@ -33,18 +33,22 @@ Berikut adalah gambaran umum struktur direktori proyek:
 /project-root
 |-- /public
 |   |-- /web_gis       # Hasil ekspor QGIS/WebGIS (Layer, Styles, Index.html peta)
-|   -- vite.svg
+|   `-- vite.svg
 |-- /src
 |   |-- /assets        # Gambar dan aset statis
-|   |-- /components    # Komponen React yang dapat digunakan kembali (Navbar, Hero, dll)
+|   |-- /components    # Komponen UI dan bagian halaman
+|   |   |-- /about     # Komponen halaman About
+|   |   |-- /ui        # Komponen UI reusable (Button, Input, dll)
+|   |   `-- ...        # Komponen layout lainnya (Navbar, Footer, Section)
 |   |-- /hooks         # Custom React Hooks
-|   |-- /pages         # Halaman utama aplikasi (Home, DataPage, FullMap)
-|   |-- /web_gis       # Komponen wrapper untuk memuat peta iframe
-|   |-- App.tsx        # Komponen root dan konfigurasi routing
-|   -- main.tsx       # Entry point aplikasi
+|   |-- /lib           # Utility functions (cn, formatters)
+|   |-- /pages         # Halaman utama (Home, DataPage, AboutPage, FullMapPage)
+|   |-- /web_gis       # Komponen wrapper untuk peta
+|   |-- App.tsx        # Konfigurasi routing
+|   `-- main.tsx       # Entry point
 |-- index.html         # HTML utama
-|-- package.json       # Dependensi dan skrip proyek
-|-- vercel.json        # Konfigurasi deployment Vercel (Rewrite rules)
+|-- package.json       # Dependensi proyek
+|-- vercel.json        # Konfigurasi deployment
 |-- vite.config.ts     # Konfigurasi Vite
 `-- ...
 
