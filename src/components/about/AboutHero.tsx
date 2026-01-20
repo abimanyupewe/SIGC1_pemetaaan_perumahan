@@ -169,7 +169,7 @@ export const AboutHero = () => {
 
                     {/* Icon 1: Github - Top Left */}
                     <motion.a
-                        href="#"
+                        href="https://github.com/abimanyupewe"
                         style={{ x: x1, y: y1, opacity: opacityIcons, rotate: rotateIcons }}
                         className="absolute z-10 p-4 md:p-5 bg-white dark:bg-neutral-800/90 backdrop-blur-md rounded-2xl shadow-xl hover:shadow-2xl hover:text-indigo-600 dark:text-white dark:hover:text-indigo-400 transition-all border border-white/20 dark:border-white/10"
                     >
@@ -178,7 +178,7 @@ export const AboutHero = () => {
 
                     {/* Icon 2: Instagram - Top Right */}
                     <motion.a
-                        href="#"
+                        href="https://www.instagram.com/accounts/login/?next=%2Fhoohbim_&source=omni_redirect"
                         style={{ x: x2, y: y2, opacity: opacityIcons, rotate: rotateIcons }}
                         className="absolute z-10 p-4 md:p-5 bg-white dark:bg-neutral-800/90 backdrop-blur-md rounded-2xl shadow-xl hover:shadow-2xl hover:text-pink-600 dark:text-white dark:hover:text-pink-400 transition-all border border-white/20 dark:border-white/10"
                     >
@@ -187,7 +187,7 @@ export const AboutHero = () => {
 
                     {/* Icon 3: Linkedin - Bottom Left */}
                     <motion.a
-                        href="#"
+                        href="https://www.linkedin.com/in/abimanyu-priyo-widagdo-101a46279/"
                         style={{ x: x3, y: y3, opacity: opacityIcons, rotate: rotateIcons }}
                         className="absolute z-10 p-4 md:p-5 bg-white dark:bg-neutral-800/90 backdrop-blur-md rounded-2xl shadow-xl hover:shadow-2xl hover:text-blue-600 dark:text-white dark:hover:text-blue-400 transition-all border border-white/20 dark:border-white/10"
                     >
@@ -196,7 +196,7 @@ export const AboutHero = () => {
 
                     {/* Icon 4: Tiktok - Bottom Right */}
                     <motion.a
-                        href="#"
+                        href="https://www.tiktok.com/@abimanyupriyowidagdo?is_from_webapp=1&sender_device=pc"
                         style={{ x: x4, y: y4, opacity: opacityIcons, rotate: rotateIcons }}
                         className="absolute z-10 p-4 md:p-5 bg-white dark:bg-neutral-800/90 backdrop-blur-md rounded-2xl shadow-xl hover:shadow-2xl hover:text-black dark:text-white dark:hover:text-gray-300 transition-all border border-white/20 dark:border-white/10"
                     >

@@ -108,7 +108,7 @@ export const DataPage = () => {
                                     <TableHead className="w-[300px]">Nama Perumahan</TableHead>
                                     <TableHead className="min-w-[300px]">Alamat</TableHead>
                                     <TableHead>Luas Area</TableHead>
-                                    <TableHead className="text-right">Jumlah Unit</TableHead>
+
                                     <TableHead className="text-center">Status</TableHead>
                                     <TableHead className="text-right">Aksi</TableHead>
                                 </TableRow>
@@ -130,7 +130,7 @@ export const DataPage = () => {
                                                 </div>
                                             </TableCell>
                                             <TableCell>{item.luas}</TableCell>
-                                            <TableCell className="text-right">{item.unit}</TableCell>
+
                                             <TableCell className="text-center">
                                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border
                                                 ${item.status === 'Terverifikasi'
@@ -171,12 +171,7 @@ export const DataPage = () => {
                                                                         {item.luas}
                                                                     </p>
                                                                 </div>
-                                                                <div className="space-y-1">
-                                                                    <h4 className="text-sm font-medium text-neutral-500 dark:text-neutral-400">Jumlah Unit</h4>
-                                                                    <p className="text-base font-semibold text-neutral-900 dark:text-neutral-100">
-                                                                        {item.unit} Unit
-                                                                    </p>
-                                                                </div>
+
                                                             </div>
                                                             <div className="space-y-1 pt-2">
                                                                 <h4 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-2">Status Validasi</h4>
@@ -197,7 +192,7 @@ export const DataPage = () => {
                                     ))
                                 ) : (
                                     <TableRow>
-                                        <TableCell colSpan={7} className="h-24 text-center">
+                                        <TableCell colSpan={6} className="h-24 text-center">
                                             Data tidak ditemukan.
                                         </TableCell>
                                     </TableRow>
