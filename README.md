@@ -1,75 +1,77 @@
-# React + TypeScript + Vite
+# Pemetaan Perumahan
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Proyek Sistem Informasi Geografis (SIG) berbasis web untuk pemetaan persebaran perumahan di wilayah Mulyorejo dan Sukun, Kota Malang. Aplikasi ini menyajikan visualisasi peta interaktif dengan data spasial yang mendetail.
 
-Currently, two official plugins are available:
+## Tentang Proyek
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Aplikasi ini dikembangkan sebagai bagian dari tugas mata kuliah Sistem Informasi Geografis. Tujuannya adalah untuk memberikan informasi yang mudah diakses mengenai lokasi perumahan, fasilitas umum, dan infrastruktur terkait seperti jalan dan sungai di area target.
 
-## React Compiler
+Fitur Utama:
+- Peta Digital Interaktif (WebGIS) menggunakan OpenLayers.
+- Layer informasi lengkap: Jalan, Sungai, Fasilitas Umum, Area Perumahan, dll.
+- Informasi detail perumahan (Nama, Alamat, Luas Area).
+- Pencarian dan filter data.
+- Desain responsif dan modern.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Teknologi (Tech Stack)
 
-Note: This will impact Vite dev & build performances.
+Proyek ini dibangun menggunakan stack teknologi modern untuk memastikan performa yang cepat dan pengalaman pengguna yang baik:
 
-## Expanding the ESLint configuration
+- Frontend Framework: React (v18)
+- Build Tool: Vite
+- Bahasa Pemrograman: TypeScript
+- Styling: Tailwind CSS
+- Peta Interaktif: OpenLayers
+- Animasi: Framer Motion & GSAP
+- Routing: React Router DOM
+- Deployment: Vercel
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Struktur Folder
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Berikut adalah gambaran umum struktur direktori proyek:
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+/project-root
+|-- /public
+|   |-- /web_gis       # Hasil ekspor QGIS/WebGIS (Layer, Styles, Index.html peta)
+|   `-- vite.svg
+|-- /src
+|   |-- /assets        # Gambar dan aset statis
+|   |-- /components    # Komponen React yang dapat digunakan kembali (Navbar, Hero, dll)
+|   |-- /hooks         # Custom React Hooks
+|   |-- /pages         # Halaman utama aplikasi (Home, DataPage, FullMap)
+|   |-- /web_gis       # Komponen wrapper untuk memuat peta iframe
+|   |-- App.tsx        # Komponen root dan konfigurasi routing
+|   `-- main.tsx       # Entry point aplikasi
+|-- index.html         # HTML utama
+|-- package.json       # Dependensi dan skrip proyek
+|-- vercel.json        # Konfigurasi deployment Vercel (Rewrite rules)
+|-- vite.config.ts     # Konfigurasi Vite
+`-- ...
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Setup Awal
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Ikuti langkah-langkah berikut untuk menjalankan proyek ini di komputer lokal Anda:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+1. Prasyarat
+Pastikan Node.js (versi terbaru atau LTS) sudah terinstal di komputer Anda.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+2. Instalasi
+Buka terminal dan arahkan ke direktori proyek, lalu jalankan perintah:
+
+npm install
+
+3. Menjalankan Server Development
+Untuk memulai server pengembangan lokal:
+
+npm run dev
+
+Aplikasi akan berjalan di http://localhost:5173 (atau port lain yang tersedia).
+
+4. Build untuk Produksi
+Untuk membuat versi produksi yang optimal:
+
+npm run build
+
+## Lisensi
+
+Proyek ini dibuat untuk tujuan pendidikan.
