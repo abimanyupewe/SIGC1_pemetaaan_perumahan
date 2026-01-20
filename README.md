@@ -30,6 +30,7 @@ Proyek ini dibangun menggunakan stack teknologi modern untuk memastikan performa
 
 Berikut adalah gambaran umum struktur direktori proyek:
 
+```text
 /project-root
 |-- /public
 |   |-- /web_gis       # Hasil ekspor QGIS/WebGIS (Layer, Styles, Index.html peta)
@@ -51,6 +52,7 @@ Berikut adalah gambaran umum struktur direktori proyek:
 |-- vercel.json        # Konfigurasi deployment
 |-- vite.config.ts     # Konfigurasi Vite
 `-- ...
+```
 
 ## Setup Awal
 
