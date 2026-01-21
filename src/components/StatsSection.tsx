@@ -12,17 +12,17 @@ const stats = [
     },
     {
         icon: <Map className="w-8 h-8 text-teal-500" />,
-        value: 45,
+        value: 541,
         suffix: "Ha",
         label: "Luas Wilayah",
-        description: "Total luas area pemetaan yang mencakup Mulyorejo.",
+        description: "Total luas area pemetaan yang mencakup Mulyorejo dan Bandulan.",
     },
     {
         icon: <Users className="w-8 h-8 text-orange-500" />,
-        value: 1250,
+        value: 24965,
         suffix: "+",
-        label: "Unit Rumah",
-        description: "Estimasi jumlah unit rumah yang tercakup dalam sistem.",
+        label: "Jumlah Penduduk",
+        description: "Estimasi jumlah penduduk yang terdata dikelurahan mulyorejo dan bandulan dalam sistem.",
     },
     {
         icon: <TrendingUp className="w-8 h-8 text-purple-500" />,
